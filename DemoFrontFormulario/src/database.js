@@ -6,8 +6,7 @@ const URI = 'mongodb+srv://ubuntu:chichas@clusteromia.odhmh.mongodb.net/omia';
 mongoose.connect(URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
-})
-    .then(db => console.log('DB is connected :D'))
-    .catch(err => console.error(err));
+}).then(db => console.log('Base de datos conectada'))
+  .catch(err => console.error(err));
 
-    module.exports = mongoose;
+  module.exports = mongoose;
