@@ -7,7 +7,7 @@ class App extends Component {
         this.state = {
             modelo_primario: '',
             modelo_secundario: '',
-            guardar_meta: false,
+            guardar_meta: '',
             tasks: [],
             _id: ''
 
@@ -30,7 +30,7 @@ class App extends Component {
                 .then(data => {
                     console.log(data);
                     M.toast({ html: 'Task Updated' });
-                    this.setState({ modelo_primario: '', modelo_secundario: '',guardar_meta: false, _id: '' });
+                    this.setState({ modelo_primario: '', modelo_secundario: '',guardar_meta: '', _id: '' });
                     this.fetchTasks();
                 })
 
@@ -47,7 +47,7 @@ class App extends Component {
                 .then(data => {
                     console.log(data)
                     M.toast({ html: 'Task saved!!' })
-                    this.setState({ modelo_primario: '', modelo_secundario: '', guardar_meta: false });
+                    this.setState({ modelo_primario: '', modelo_secundario: '', guardar_meta: '' });
                     this.fetchTasks();
                 })
                 .catch(err => console.log(err));
@@ -153,8 +153,8 @@ class App extends Component {
                                         <div className="row">
                                             <div className="input-field col s12">
                                                 <select id="lang" onChange={this.handleChange} value={this.state.guardar_meta}>
-                                                    <option value={false}>No</option>
-                                                    <option value={true}>Si</option>
+                                                    <option value='false'>No</option>
+                                                    <option value='true'>Si</option>
                                                 </select>
                                             </div>
                                         </div>

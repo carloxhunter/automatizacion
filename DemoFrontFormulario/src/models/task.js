@@ -7,7 +7,7 @@ const { Schema } = mongoose;
 const TaskSchema = new Schema({
     modelo_primario: { type: String, required: true},
     modelo_secundario: { type: String, required: true},
-    guardar_meta: {type : Boolean, required: true, default: false}/*,
+    guardar_meta: {type : String, required: true}/*,
     camara_id : {type : Number, required: true},
     video : {
         tipo: {type: String, required: true},
