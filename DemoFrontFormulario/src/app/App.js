@@ -140,22 +140,19 @@ class App extends Component {
                                     <form  onSubmit={this.addTask}>
                                         <div className="row">
                                             <div className="input-field col s12">
-                                                <input name="title" autoComplete="off" onChange={this.handleChange} type="text" placeholder="Titulo de tarea" value={this.state.modelo_primario}></input>
+                                                <input name="modelo_primario" autoComplete="off" onChange={this.handleChange} type="text" placeholder="Titulo de tarea" value={this.state.modelo_primario}></input>
                                             </div>
                                         </div>
 
                                         <div className="row">
                                             <div className="input-field col s12">
-                                                <textarea name="description" autoComplete="off" onChange={this.handleChange} placeholder="Descripcion de titulo" className="materialize-textarea" value={this.state.modelo_secundario}></textarea>
+                                                <textarea name="modelo_secundario" autoComplete="off" onChange={this.handleChange} placeholder="Descripcion de titulo" className="materialize-textarea" value={this.state.modelo_secundario}></textarea>
                                             </div>
                                         </div>
 
                                         <div className="row">
                                             <div className="input-field col s12">
-                                                <select id="lang" onChange={this.handleChange} value={this.state.guardar_meta}>
-                                                    <option value='false'>No</option>
-                                                    <option value='true'>Si</option>
-                                                </select>
+                                                <textarea name="guardar_meta" autoComplete="off" onChange={this.handleChange} placeholder="Metadata" className="materialize-textarea" value={this.state.guardar_meta}></textarea>
                                             </div>
                                         </div>
 
