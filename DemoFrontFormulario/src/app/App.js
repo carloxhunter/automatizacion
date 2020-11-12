@@ -126,7 +126,7 @@ class App extends Component {
                 {/*NAVIGATION */}
                 <nav className="light-blue darken-4">
                     <div className="container">
-                        <a className="brand-logo" href="/">MERN STACK</a>
+                        <a className="brand-logo" href="/">Test digevo app</a>
                     </div>
                 </nav>
 
