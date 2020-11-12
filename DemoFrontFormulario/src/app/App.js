@@ -1,11 +1,5 @@
-import React, { Component } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 
-
-/**
- * Crear un componente App que lo unico que hace es mostrar un h1 en pantalla
- * Montarlo en el id app, monto mi aplicaciòn ahi. npm run webpack
- * Sintaxis jsx, tenemos que decirle a webpack que traduzca eso tambien 
- */
 class App extends Component {
 
     constructor() {
