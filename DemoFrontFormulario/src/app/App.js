@@ -138,13 +138,13 @@ class App extends Component {
                                     <form  onSubmit={this.addTask}>
                                         <div className="row">
                                             <div className="input-field col s12">
-                                                <input name="title" autoComplete="off" onChange={this.handleChange} type="text" placeholder="Task title" value={this.state.title}></input>
+                                                <input name="title" autoComplete="off" onChange={this.handleChange} type="text" placeholder="Titulo de tarea" value={this.state.title}></input>
                                             </div>
                                         </div>
 
                                         <div className="row">
                                             <div className="input-field col s12">
-                                                <textarea name="description" autoComplete="off" onChange={this.handleChange} placeholder="Task description" className="materialize-textarea" value={this.state.description}></textarea>
+                                                <textarea name="description" autoComplete="off" onChange={this.handleChange} placeholder="Descripcion de titulo" className="materialize-textarea" value={this.state.description}></textarea>
                                             </div>
                                         </div>
                                         <button type="submit" className="btn light-blue darken-4">Enviar</button>
@@ -160,8 +160,8 @@ class App extends Component {
                             <table>
                                 <thead>
                                     <tr>
-                                        <th>Title</th>
-                                        <th>Description</th>
+                                        <th>Titulo</th>
+                                        <th>Descripción</th>
                                     </tr>
                                 </thead>
 
