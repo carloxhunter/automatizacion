@@ -153,8 +153,8 @@ class App extends Component {
                                         <div className="row">
                                             <div className="input-field col s12">
                                                 <select id="lang" onChange={this.handleChange} value={this.state.guardar_meta}>
-                                                    <option value=false>No</option>
-                                                    <option value=true>Si</option>
+                                                    <option value={false}>No</option>
+                                                    <option value={true}>Si</option>
                                                 </select>
                                             </div>
                                         </div>
