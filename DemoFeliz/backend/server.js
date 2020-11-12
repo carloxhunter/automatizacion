@@ -19,23 +19,24 @@ db.mongoose
     useUnifiedTopology: true
   })
   .then(() => {
-    console.log("Connected to the database!");
+    console.log("¡Conectado a la BD!");
   })
   .catch(err => {
-    console.log("Cannot connect to the database!", err);
+    console.log("¡Imposible conecta a la BD!", err);
     process.exit();
   });
 
 
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to backend application." });
+  res.json({ message: "Bienvenido al backend." });
 });
 
 require("./app/routes/user.routes")(app);
 require("./app/routes/adres.routes")(app);
 require("./app/routes/company.routes")(app);
+require("./app/routes/client.routes")(app);
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}.`);
+  console.log(`Servido corriendo en el puerto ${PORT}.`);
 });

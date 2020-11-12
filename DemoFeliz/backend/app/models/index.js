@@ -9,5 +9,6 @@ db.url = dbConfig.url;
 db.users = require("./user.model.js")(mongoose);
 db.adres = require("./adres.model.js")(mongoose);
 db.company = require("./company.model.js")(mongoose);
+db.client = require("./client.model.js")(mongoose);
 
 module.exports = db;
