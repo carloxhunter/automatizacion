@@ -5,21 +5,17 @@ const { Schema } = mongoose;
  * Esquema de las tareas 
  */
 const TaskSchema = new Schema({
-    title: { type: String, required: true},
-    description: { type: String, required: true}/*,
-    token : {type: String},
     modelo_primario: { type: String, required: true},
     modelo_secundario: { type: String, required: true},
-    guardar_metada: {type : Boolean, required: true},
+    guardar_meta: {type : Boolean, required: true, default: false}/*,
     camara_id : {type : Number, required: true},
     video : {
-              tipo: { type: String, required: true},
-              path: {type: String, required: true},
-              url:  {type: String, required: true},
-              ancho:{type: Number, required: true},
-              alto: {type: Number, required: true}
-    }
-    */
+        tipo: {type: String, required: true},
+        path: {type: String, required: true},
+        url: {type: String, required: true},
+        ancho: {type: Number, required: true},
+        alto: {type: Number, required: true}
+    }*/
 });
 
 /**

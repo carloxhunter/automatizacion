@@ -5,8 +5,9 @@ class App extends Component {
     constructor() {
         super();
         this.state = {
-            title: '',
-            description: '',
+            modelo_primario: '',
+            modelo_secundario: '',
+            guardar_meta: false,
             tasks: [],
             _id: ''
 
@@ -29,7 +30,7 @@ class App extends Component {
                 .then(data => {
                     console.log(data);
                     M.toast({ html: 'Task Updated' });
-                    this.setState({ title: '', description: '', _id: '' });
+                    this.setState({ modelo_primario: '', modelo_secundario: '',guardar_meta: false, _id: '' });
                     this.fetchTasks();
                 })
 
@@ -46,7 +47,7 @@ class App extends Component {
                 .then(data => {
                     console.log(data)
                     M.toast({ html: 'Task saved!!' })
-                    this.setState({ title: '', description: '' });
+                    this.setState({ modelo_primario: '', modelo_secundario: '', guardar_meta: false });
                     this.fetchTasks();
                 })
                 .catch(err => console.log(err));
@@ -104,8 +105,9 @@ class App extends Component {
             .then(data => {
                 console.log(data)
                 this.setState({
-                    title: data.title,
-                    description: data.description,
+                    modelo_primario: data.modelo_primario,
+                    modelo_secundario: data.modelo_secundario,
+                    guardar_meta:data.guardar_meta,
                     _id: data._id
                 })
             });
@@ -138,15 +140,25 @@ class App extends Component {
                                     <form  onSubmit={this.addTask}>
                                         <div className="row">
                                             <div className="input-field col s12">
-                                                <input name="title" autoComplete="off" onChange={this.handleChange} type="text" placeholder="Titulo de tarea" value={this.state.title}></input>
+                                                <input name="title" autoComplete="off" onChange={this.handleChange} type="text" placeholder="Titulo de tarea" value={this.state.modelo_primario}></input>
                                             </div>
                                         </div>
 
                                         <div className="row">
                                             <div className="input-field col s12">
-                                                <textarea name="description" autoComplete="off" onChange={this.handleChange} placeholder="Descripcion de titulo" className="materialize-textarea" value={this.state.description}></textarea>
+                                                <textarea name="description" autoComplete="off" onChange={this.handleChange} placeholder="Descripcion de titulo" className="materialize-textarea" value={this.state.modelo_secundario}></textarea>
                                             </div>
                                         </div>
+
+                                        <div className="row">
+                                            <div className="input-field col s12">
+                                                <select id="lang" onChange={this.handleChange} placeholder="Desea guardar en BD" value={this.state.guardar_meta}>
+                                                    <option value=false>No</option>
+                                                    <option value=true>Si</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
                                         <button type="submit" className="btn light-blue darken-4">Enviar</button>
 
                                     </form>
@@ -160,8 +172,9 @@ class App extends Component {
                             <table>
                                 <thead>
                                     <tr>
-                                        <th>Titulo</th>
-                                        <th>Descripción</th>
+                                        <th>Primario</th>
+                                        <th>Secundario</th>
+                                        <th>Metadata</th>
                                     </tr>
                                 </thead>
 
@@ -170,8 +183,9 @@ class App extends Component {
                                         this.state.tasks.map(task => {
                                             return (
                                                 <tr key={task._id}>
-                                                    <td>{task.title}</td>
-                                                    <td>{task.description}</td>
+                                                    <td>{task.modelo_primario}</td>
+                                                    <td>{task.modelo_secundario}</td>
+                                                    <td>{task.guardar_meta}</td>
                                                     <td>
                                                         <button className="btn light-blue darken-4" onClick={() => {
                                                             this.deleteTask(task._id)

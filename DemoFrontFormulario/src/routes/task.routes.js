@@ -28,8 +28,8 @@ router.get('/:id', async (req, res) => {
  * Cliente rest para testear nuestra api rest
  */
 router.post('/', async (req, res) => {
-    const { title, description } = req.body;
-    const task = new Task({ title, description });
+    const { modelo_primario, modelo_secundario, guardar_meta } = req.body;
+    const task = new Task({ modelo_primario, modelo_secundario, guardar_meta });
     await task.save();
     res.json({ status: 'Task saved!!' });
 });
@@ -39,8 +39,8 @@ router.post('/', async (req, res) => {
  * Actualizar
  */
 router.put('/:id', async (req, res) => {
-    const { title, description } = req.body;
-    const newTask = { title, description };
+    const { modelo_primario, modelo_secundario, guardar_meta } = req.body;
+    const newTask = { modelo_primario, modelo_secundario, guardar_meta };
     await Task.findByIdAndUpdate(req.params.id, newTask);
     res.json({status: 'Task Updated yes!!'});
 });
