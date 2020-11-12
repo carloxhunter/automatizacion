@@ -3,6 +3,6 @@ Aplicación CRUD de una sola pagina utilizando ReactJS, NodeJS que usara como fr
 * Para utilizar:
   * Install Nodejs
   * Install mongodb
-* npm install
-* npm start
+* yarn install
+* yarn start
 
