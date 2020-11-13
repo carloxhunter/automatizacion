@@ -66,6 +66,7 @@ class ClientDetails extends Component{
 				<div className="row">
 					<div className="col-md">
 						<ul className="list-group w-60 py-4">
+							<li className="list-group-item">id: {currentTask.id}</li>
 							<li className="list-group-item">model_primary: {currentTask.model_primary}</li>
 							<li className="list-group-item">model_secundary: {currentTask.model_secundary}</li>
 							<li className="list-group-item">save_meta: {currentTask.save_meta}</li>

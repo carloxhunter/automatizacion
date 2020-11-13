@@ -1,6 +1,26 @@
 import React,{Component} from 'react';
+import Select from 'react-select'
 
 import ClientService from '../../services/ClientService';
+
+
+const optionsModelPrimary = [
+	{ value: 'peoplenet', label: 'Detector personas' },
+	{ value: 'trafficam', label: 'Detector automoviles' },
+	{ value: 'mask', label: 'Detector mascarilla' },
+];
+
+const optionsModelSeconday = [
+	{ value: 'carCalor', label: 'Clasificador de color' },
+	{ value: 'carMake', label: 'Clasificador de marca' },
+	{ value: 'OCR', label: 'Lector sw patente' },
+];
+
+const optionsMetadata = [
+	{ value: true, label: 'Si' },
+	{ value: false, label: 'No' },
+];
+
 
 class AddClient extends Component{
 
@@ -103,7 +123,11 @@ class AddClient extends Component{
               				<input type="text" className="form-control" id="phone" required value={this.state.camara_id} onChange={this.onChangeCamara_id}
                 			name="phone"/>
             			</div>
+						<div className="form-group">  <Select options={optionsModelPrimary} /></div>
+						<div className="form-group">  <Select options={optionsModelSeconday} /></div>
+						<div className="form-group">  <Select options={optionsMetadata} /></div>
             			<button onClick={this.saveClient} className="btn btn-success btn-block">Guardar</button>
+						
           			</div>
         		)}
       		</div>

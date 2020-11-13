@@ -31,9 +31,6 @@ app.get("/", (req, res) => {
   res.json({ message: "Bienvenido al backend." });
 });
 
-require("./app/routes/user.routes")(app);
-require("./app/routes/adres.routes")(app);
-require("./app/routes/company.routes")(app);
 require("./app/routes/client.routes")(app);
 
 const PORT = process.env.PORT || 8080;
