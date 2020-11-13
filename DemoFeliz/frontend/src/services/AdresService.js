@@ -11,6 +11,7 @@ class AddressService{
 	}
 
 	addNewAddress(data){
+		
 		return http.post("/adres", data);
 	}
 

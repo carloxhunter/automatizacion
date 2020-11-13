@@ -21,6 +21,9 @@ class Navigation extends Component{
                 <li className="nav-item">
                   <Link to="/company" className="nav-link">Company</Link>
                 </li>
+				<li className="nav-item">
+                  <Link to="/ejecucion" className="nav-link">Ejecuci0n</Link>
+                </li>
   						</ul>
   						<ul className="navbar-nav ml-auto">
   							<li className="nav-item">
@@ -32,6 +35,7 @@ class Navigation extends Component{
                 <li className="nav-item">
                   <Link to="/addCompany" className="nav-link">Add Company</Link>
                 </li>
+				
   						</ul>
   					</div>
 				</div>

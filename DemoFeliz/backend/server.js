@@ -28,12 +28,17 @@ db.mongoose
 
 
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to backend application." });
+  res.json({ message: "Welc0ome to backend application." });
+});
+
+app.get("/jiro", (req, res) => {
+  res.json({ message: "jirororo" });
 });
 
 require("./app/routes/user.routes")(app);
 require("./app/routes/adres.routes")(app);
 require("./app/routes/company.routes")(app);
+require("./app/routes/exec.routes")(app)
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {

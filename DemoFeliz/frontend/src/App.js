@@ -23,6 +23,8 @@ import EditCompany from './components/company/EditCompany';
 
 import NotFoundPage from './components/NotFoundPage';
 
+import Ejecucion from './components/Home';
+
 import {
   BrowserRouter as Router,
   Switch,
@@ -52,8 +54,12 @@ function App() {
             <Route exact path='/company/:id' component={CompanyDetails} />
             <Route exact path='/addCompany' component={AddCompany} />
             <Route exact path='/company/edit/:id' component={EditCompany} />
-            
+            <Route exact path='/ejecucion' component={Ejecucion} />
+
+
             <Route component={NotFoundPage} />
+
+            
 
       		</Switch>
    	 	</div>

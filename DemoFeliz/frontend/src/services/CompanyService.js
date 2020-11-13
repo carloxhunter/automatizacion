@@ -11,6 +11,9 @@ class CompanyService{
 	}
 
 	addNewCompany(data){
+		console.log(http.post("/company", data))
+		console.log(JSON.stringify(http.get("/company")))
+		
 		return http.post("/company", data);
 	}
 
