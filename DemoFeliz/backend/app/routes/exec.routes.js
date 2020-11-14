@@ -5,8 +5,8 @@ module.exports = app => {
   
     
   
-    router.get("/", exec.bashanswer);
-
+    router.post("/", exec.bashanswer);
+    router.post("/bash", exec.basher2)
   
     app.use("/api/exec", router);
   };
