@@ -167,7 +167,7 @@ async function DockerExec(bf, token) {
   const { stdout, stderr } = await execs(cmd)  
   console.log(cmd)
   //res.send(bf+stdout+stderr)
-  res.send('jiro')
+  //res.send('jiro')
   return bf+stdout+stderr
 }
 
@@ -218,7 +218,14 @@ puerto=req.body.puerto
 
 
  DockerRun("", version, puerto, token).
- then(run_out => DockerExec(run_out, token)).
+ then(run_out => DockerExec(run_out, token)).then(exec_out => {
+  ip='3.131.221.80'  
+  stream='rtsp://'+ip+':'+puerto+'/ds-test'
+  out= exec_out + stream+'\n porfavor espere 2 minutos antes de ver el stream'
+  res.send(out) 
+
+} ).
+ 
   catch(err => {
       console.log(err)
       res.status(500).send({ message:err});
@@ -232,3 +239,15 @@ puerto=req.body.puerto
 
 
 }
+
+
+
+const timer = ms => new Promise(res => setTimeout(res, ms))
+async function espera_segundos (res, seg, msg) { // We need to wrap the loop into an async function for this to work
+    console.log('espera: '+seg+' segundos')
+    res.send(msg)
+    await timer(seg*1000); // then the created Promise can be awaited
+    
+  }
+
+
