@@ -24,6 +24,10 @@ class ClientService{
 
 	deleteAllClient() {
     	return http.delete(`/client`);
+	  }
+	
+	upDeepstream(id) {
+    	return http.post(`/client/${id}`);
   	}
 
 }

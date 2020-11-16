@@ -40,6 +40,7 @@ class ClientList extends Component{
 	}
 
 	removeAllTasks(){
+		console.log("oie")
 		ClientService.deleteAllClient()
 		.then(response => {
 			console.log(response.data);
@@ -49,6 +50,12 @@ class ClientList extends Component{
         	console.log(e);
       	});
 	}
+
+	sendTask(){
+		console.log("jiro")
+
+	}
+	
 
 	
 	render(){
@@ -88,6 +95,7 @@ class ClientList extends Component{
 						<thead className="thead-dark">
 							<tr>
 								<th scope="col">#</th>
+								<th scope="col">Estado</th>
 								<th scope="col">Id</th>
 								<th scope="col">Modelo primario</th>
 								<th scope="col">Modelo secundario</th>
@@ -98,6 +106,7 @@ class ClientList extends Component{
 							{tasks.map((task,index) => (
 								<tr key={task.id}>
 									<th scope="row">{index + 1}</th>
+									<td>{task.estado}</td>
 									<td>{task.id}</td>
 									<td>{task.model_primary}</td>
                 					<td>{task.model_secundary}</td>

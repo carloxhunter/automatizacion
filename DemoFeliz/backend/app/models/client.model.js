@@ -4,7 +4,8 @@ module.exports = mongoose => {
         model_primary: String,
         model_secundary: String,
         save_meta: Boolean,
-        camara_id : Number/*,
+        camara_id : Number,
+        estado: String/*,
         video : {
             type: String,
             path: String, 

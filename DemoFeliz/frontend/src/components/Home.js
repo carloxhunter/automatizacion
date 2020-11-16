@@ -7,7 +7,6 @@ class Home extends Component{
 			<div className="container">
 				<h1 className="py-4">App pruebas OMIA</h1>
 				<ChromeDinoGame />
-
 			</div>
 		)
 	}

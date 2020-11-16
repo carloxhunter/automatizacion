@@ -6,19 +6,29 @@ import ClientService from '../../services/ClientService';
 
 const optionsModelPrimary = [
 	{ value: 'peoplenet', label: 'Detector personas' },
-	{ value: 'trafficam', label: 'Detector automoviles' },
-	{ value: 'mask', label: 'Detector mascarilla' },
+	{ value: 'trafficam', label: 'Detector automoviles y personas' },
 ];
 
 const optionsModelSeconday = [
-	{ value: 'carCalor', label: 'Clasificador de color' },
-	{ value: 'carMake', label: 'Clasificador de marca' },
-	{ value: 'OCR', label: 'Lector sw patente' },
+	{ value: 'color_auto', label: 'Clasificador de color automoviles' },
+	{ value: 'tipo_auto', label: 'Clasificador de marca de vehiculos' }
 ];
 
 const optionsMetadata = [
 	{ value: true, label: 'Si' },
 	{ value: false, label: 'No' },
+];
+
+const optionsCameraId = [
+	{ value: 1, label: '1' },
+	{ value: 2, label: '2' },
+	{ value: 3, label: '3' },
+	{ value: 4, label: '4' },
+	{ value: 5, label: '5' },
+	{ value: 6, label: '6' },
+	{ value: 7, label: '7' },
+	{ value: 8, label: '8' },
+	{ value: 9, label: '8' }
 ];
 
 
@@ -38,6 +48,7 @@ class AddClient extends Component{
 			model_secundary: "",
 			save_meta: "",
 			camara_id: "",
+			estado: "No procesando",
 			submitted: false
 		};
 
@@ -45,31 +56,32 @@ class AddClient extends Component{
 
 	onChangeModel_primary(e){
 		this.setState({
-			model_primary: e.target.value
+			model_primary: e.value
 		});
 	}
 
 	onChangemodel_secundary(e){
 		this.setState({
-			model_secundary: e.target.value
+			model_secundary: e.value
 		});
 	}
 
 	onChangeSave_meta(e){
 		this.setState({
-			save_meta: e.target.value
+			save_meta: e.value
 		});
 	}
 
 	onChangeCamara_id(e){
 		this.setState({
-			camara_id: e.target.value
+			camara_id: e.value
 		});
 	}
 
 	saveClient(){
 		var data = {
 			model_primary: this.state.model_primary,
+			estado : this.state.estado,
 			model_secundary: this.state.model_secundary,
 			save_meta: this.state.save_meta,
 			camara_id: this.state.camara_id,
@@ -91,6 +103,7 @@ class AddClient extends Component{
       });
 	}
 
+	
 	render() {
     	return (
     		<div className="container">
@@ -103,31 +116,11 @@ class AddClient extends Component{
           			</div>
         		) : (
           			<div>
-            			<div className="form-group">
-              				<label htmlFor="name">Modelo primario</label>
-              				<input type="text" className="form-control" id="name" required value={this.state.model_primary} onChange={this.onChangeModel_primary}
-                			name="name"/>
-            			</div>
-            			<div className="form-group">
-              				<label htmlFor="username">Modelo Secundario</label>
-              				<input type="text" className="form-control" id="username" required value={this.state.model_secundary} onChange={this.onChangemodel_secundary}
-                			name="username"/>
-            			</div>
-            			<div className="form-group">
-              				<label htmlFor="email">¿Guardar metadata?</label>
-              				<input type="email" className="form-control" id="email" required value={this.state.save_meta} onChange={this.onChangeSave_meta}
-                			name="email"/>
-            			</div>
-            			<div className="form-group">
-              				<label htmlFor="phone">Camara id</label>
-              				<input type="text" className="form-control" id="phone" required value={this.state.camara_id} onChange={this.onChangeCamara_id}
-                			name="phone"/>
-            			</div>
-						<div className="form-group">  <Select options={optionsModelPrimary} /></div>
-						<div className="form-group">  <Select options={optionsModelSeconday} /></div>
-						<div className="form-group">  <Select options={optionsMetadata} /></div>
+						<div className="form-group">  <Select options={optionsModelPrimary} onChange={this.onChangeModel_primary} placeholder="Elija modelo primario" name="primary" /></div>
+						<div className="form-group">  <Select options={optionsModelSeconday} onChange={this.onChangemodel_secundary} placeholder="Elija modelo secundario" name="secundary"/></div>
+						<div className="form-group">  <Select options={optionsMetadata} onChange={this.onChangeSave_meta} placeholder="¿Desea guardar metadata en la BD?"name="metada"/></div>
+						<div className="form-group">  <Select options={optionsCameraId} onChange={this.onChangeCamara_id} placeholder="Seleccione camara ID"name="camaraid"/></div>
             			<button onClick={this.saveClient} className="btn btn-success btn-block">Guardar</button>
-						
           			</div>
         		)}
       		</div>

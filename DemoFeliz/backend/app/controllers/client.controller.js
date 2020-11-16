@@ -14,7 +14,8 @@ exports.create = (req, res) => {
     model_primary: req.body.model_primary,
     model_secundary: req.body.model_secundary,
     save_meta: req.body.save_meta,
-    camara_id: req.body.camara_id
+    camara_id: req.body.camara_id,
+    estado: req.body.estado
   });
 
 
@@ -31,6 +32,11 @@ exports.create = (req, res) => {
     });
 };
 
+
+exports.UpDeepstream = (req, res) => {
+   res.send("luchochupameelpico")
+   console.log("Levanten al jiroloco")
+};
 
 exports.findAll = (req, res) => {
   const model_primary = req.query.model_primary;

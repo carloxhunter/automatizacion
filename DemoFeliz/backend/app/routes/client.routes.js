@@ -4,6 +4,8 @@ module.exports = app => {
     var router = require("express").Router();
   
     router.post("/", client.create);
+    
+    router.post("/:id", client.UpDeepstream);
   
     router.get("/", client.findAll);
   
