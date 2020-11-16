@@ -15,7 +15,7 @@ models_dict={
 
 application = "[application]\nenable-perf-measurement=1\nperf-measurement-interval-sec=10"
 tiled_display = "[tiled-display]\nenable=0\nrows=1\ncolumns=1\nwidth=1280\nheight=720\ngpu-id=0\nnvbuf-memory-type=0"
-source = "[source]\nenable=0\n_type=0\nuri=0\nnum-sources=0\ngpu-id=0\ncudadec-memtype=0"
+source = "[source]\nenable=0\n_type=0\nuri=0\nnum-sources=1\ngpu-id=0\ncudadec-memtype=0"
 sink0 = "[sink0]\nenable=0\ntype=2\nsync=1\nsource-id=0\ngpu-id=0\nnvbuf-memory-type=0"
 sink1 = "[sink1]\nenable=0\ntype=3\ncontainer=1\ncodec=1\nenc-type=0\nsync=1\nbitrate=2000000\nprofile=0\noutput-file=0\nsource-id=0"
 sink2 = "[sink2]\nenable=1\ntype=4\ncodec=1\nenc-type=0\nsync=0\nbitrate=400000\nprofile=0\nrtsp-port=8550\nudp-port=5400"
@@ -51,16 +51,18 @@ def updateModelSH(token, path=model_script_path, models=models_dict):
     cmd = "rclone sync cloud_modelos:modelsdigevo/"+models[pgie]+" /models/"+models[pgie] +"\n"
     file.write(cmd)
 
-    sgies = user_info['solicitud']['modelo_secundario']
-    for i in sgies:
-        cmd = "rclone sync cloud_modelos:modelsdigevo/"+models[i]+" /models/"+models[i] + "\n"
-        file.write(cmd)
+    if 'modelo_secundario' in user_info['solicitud']:
+        sgies = user_info['solicitud']['modelo_secundario']
+        for i in sgies:
+            cmd = "rclone sync cloud_modelos:modelsdigevo/"+models[i]+" /models/"+models[i] + "\n"
+            file.write(cmd)
     file.close()
 
 def parseConfigFile(token, path=config_file_path, models=models_dict):
     user_info = getClientInfo(token)
     sources_list = user_info["solicitud"]["video"]["url"]
-    sgies_list = user_info["solicitud"]["modelo_secundario"]
+    if "modelo_secundario" in user_info['solicitud']:
+        sgies_list = user_info["solicitud"]["modelo_secundario"]
     cam_list = user_info["solicitud"]["camara_id"]
     tipo = user_info["solicitud"]["video"]["tipo"]
     pgie = user_info["solicitud"]["modelo_primario"]
@@ -89,18 +91,19 @@ def parseConfigFile(token, path=config_file_path, models=models_dict):
     _primary_gie = primary_gie.replace("batch-size=0","batch-size="+str(len(sources_list)))
     _primary_gie = _primary_gie.replace("config-file=0","config-file=/models/"+models_dict[pgie]+"config_infer_primary.txt")
 
-    for count,model in enumerate(sgies_list):
-        _sgie = secondary_gie.replace("[secondary-gie]","[secondary-gie"+str(count)+"]")
-        _sgie = _sgie.replace("enable=0","enable=1")
+    if 'sgies_list' in locals():
+        for count,model in enumerate(sgies_list):
+            _sgie = secondary_gie.replace("[secondary-gie]","[secondary-gie"+str(count)+"]")
+            _sgie = _sgie.replace("enable=0","enable=1")
 
-        if model == "color_auto":
-            _sgie = _sgie.replace("gie-unique-id=0","gie-unique-id=5")
-            _sgie = _sgie.replace("config-file=0","config-file=/models/"+models_dict["color_auto"]+"config_infer_secondary.txt")
-        elif model == "tipo_auto":
-            _sgie = _sgie.replace("gie-unique-id=0","gie-unique-id=4")
-            _sgie = _sgie.replace("config-file=0","config-file=/models/"+models_dict["tipo_auto"]+"config_infer_secondary.txt")
+            if model == "color_auto":
+                _sgie = _sgie.replace("gie-unique-id=0","gie-unique-id=5")
+                _sgie = _sgie.replace("config-file=0","config-file=/models/"+models_dict["color_auto"]+"config_infer_secondary.txt")
+            elif model == "tipo_auto":
+                _sgie = _sgie.replace("gie-unique-id=0","gie-unique-id=4")
+                _sgie = _sgie.replace("config-file=0","config-file=/models/"+models_dict["tipo_auto"]+"config_infer_secondary.txt")
 
-        sgies += _sgie + "\n\n"
+                sgies += _sgie + "\n\n"
 
     for id in cam_list:
         ids += str(int(id)) +";"
@@ -120,9 +123,14 @@ def parseConfigFile(token, path=config_file_path, models=models_dict):
     elif "tipo_auto" in sgies_list:
         _ds_example = _ds_example.replace("car-type=0","car-type=1")
 
-    complete_config = application + "\n\n" + tiled_display + "\n\n" + sources + \
-    "\n" + sink0 + "\n\n" + sink1 + "\n\n" + sink2 + "\n\n" + osd + "\n\n" + \
-    _streammux + "\n\n" + _primary_gie + "\n\n" + sgies + "\n" + tracker + "\n\n" + _ds_example
+    if 'sgies_list' in locals():
+        complete_config = application + "\n\n" + tiled_display + "\n\n" + sources + \
+        "\n" + sink0 + "\n\n" + sink1 + "\n\n" + sink2 + "\n\n" + osd + "\n\n" + \
+        _streammux + "\n\n" + _primary_gie + "\n\n" + sgies + "\n" + tracker + "\n\n" + _ds_example
+    else:
+        complete_config = application + "\n\n" + tiled_display + "\n\n" + sources + \
+        "\n" + sink0 + "\n\n" + sink1 + "\n\n" + sink2 + "\n\n" + osd + "\n\n" + \
+        _streammux + "\n\n" + _primary_gie + "\n\n" + tracker + "\n\n" + _ds_example
 
     return complete_config
 
