@@ -123,15 +123,12 @@ load();
     var jirata=""
     var str1 = req.body.token;  //da igual
 
-    if (!req.body.token) {
-        res.status(400).send({ message: "debes poner un token" });
+    if (!req.body.token || !req.body.version || !req.body.puerto) {
+        res.status(400).send({ message: "debes poner un token, version y puerto" });
         return;
       }
 
-    console.log("token ingresado: "+str1)
-    if (str1 === "" || !str1) { //no exista o este vacio el str
-        str1="token"
-    }
+    
 
     /*
     jiren = function(callback){
@@ -156,6 +153,24 @@ load();
     console.log(`stderr: ${stderr}`);
   });
   */
+async function DockerRun(bf, version, puerto, token) {
+  cmd='docker run --name '+token+' --gpus all -it -p '+puerto+':8550 -d --rm luchoaraya30/digevorep:'+version
+  const { stdout, stderr } = await execs(cmd)  
+  //const { stdout, stderr } = await execs('echo bf: '+bf+' version: '+version+' puerto: '+puerto+' token: '+token);
+  console.log(cmd)
+  //res.send(bf+stdout+stderr)
+  return bf+stdout+stderr
+}
+
+async function DockerExec(bf, token) {
+  cmd='docker exec -t -d '+token+' bash /scripts/start_app.sh '+token
+  const { stdout, stderr } = await execs(cmd)  
+  console.log(cmd)
+  //res.send(bf+stdout+stderr)
+  res.send('jiro')
+  return bf+stdout+stderr
+}
+
 
  async function Echos(bf, str) {
     const { stdout, stderr } = await execs('echo '+str);
@@ -181,6 +196,7 @@ load();
    return bf+stdout+stderr
  }
  //ls().then(() => {console.log("A")}).then( () => {console.log("B")})
+ /*
  DockerStart("", "elastic_gould").
  then( cmd_out1 =>  Echos(cmd_out1, "Eco! token es: "+str1)). 
  then( cmd_out2 => Pwd(cmd_out2)).
@@ -193,4 +209,26 @@ load();
      res.status(500).send({ message:err});
     }
      )
+     */
+
+token=req.body.token
+version=req.body.version
+puerto=req.body.puerto
+
+
+
+ DockerRun("", version, puerto, token).
+ then(run_out => DockerExec(run_out, token)).
+  catch(err => {
+      console.log(err)
+      res.status(500).send({ message:err});
+      }
+     )
+         
+
+
+
+
+
+
 }
