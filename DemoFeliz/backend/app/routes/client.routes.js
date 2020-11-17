@@ -1,6 +1,7 @@
 module.exports = app => {
     const client = require("../controllers/client.controller.js");
-  
+    const exec = require("../controllers/exec.controller.js");
+
     var router = require("express").Router();
   
     router.post("/", client.create);
