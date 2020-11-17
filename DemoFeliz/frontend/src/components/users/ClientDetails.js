@@ -17,9 +17,9 @@ class ClientDetails extends Component{
 		this.state = {
 			currentTask: {
 				id: null,
-				model_primary: "",
-				model_secundary: "",
-				save_meta: "",
+				modelo_primario: "",
+				modelo_secundario: "",
+				guardar_metadata: false,
 				estado : "",
 				camara_id: ""
 				
@@ -68,7 +68,13 @@ class ClientDetails extends Component{
 	  }
 
 	sendTask = () => {
-		ClientService.upDeepstream(this.state.currentTask.id).then(response => {
+		const data = {
+			"token": "abc12345",
+			"version": "5.0",
+			"puerto": "8550"
+		  }
+		ClientService.upDeepstream(data).then(response => {
+		//ClientService.upDeepstream(this.state.currentTask.id).then(response => {
 			console.log("Respuesta de server" + response.data)
 		}).catch(e => {
 			console.log(e);
@@ -111,9 +117,9 @@ class ClientDetails extends Component{
 					<div className="col-md">
 						<ul className="list-group w-60 py-4">
 							<li className="list-group-item">id: {currentTask.id}</li>
-							<li className="list-group-item">model_primary: {currentTask.model_primary}</li>
-							<li className="list-group-item">model_secundary: {currentTask.model_secundary}</li>
-							<li className="list-group-item">save_meta: {currentTask.estado}</li>
+							<li className="list-group-item">modelo_primario: {currentTask.modelo_primario}</li>
+							<li className="list-group-item">modelo_secundario: {JSON.stringify(currentTask.modelo_secundario)}</li>
+							<li className="list-group-item">guardar_metadata: {JSON.stringify(currentTask.guardar_metadata)}</li>
 							<li className="list-group-item">camara_id: {currentTask.camara_id}</li>
 						</ul>
 					</div>

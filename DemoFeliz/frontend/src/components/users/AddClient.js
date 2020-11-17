@@ -31,6 +31,7 @@ const optionsCameraId = [
 	{ value: 9, label: '8' }
 ];
 
+//const jiro = [];
 
 class AddClient extends Component{
 
@@ -44,9 +45,9 @@ class AddClient extends Component{
 
 		this.state = {
 			id: null,
-			model_primary: "",
-			model_secundary: "",
-			save_meta: "",
+			modelo_primario: "",
+			modelo_secundario: [],
+			guardar_metadata: "",
 			camara_id: "",
 			estado: "No procesando",
 			submitted: false
@@ -56,19 +57,30 @@ class AddClient extends Component{
 
 	onChangeModel_primary(e){
 		this.setState({
-			model_primary: e.value
+			modelo_primario: e.value
 		});
 	}
-
+/*
 	onChangemodel_secundary(e){
+		console.log(e);
 		this.setState({
-			model_secundary: e.value
+			modelo_secundario: e.value
 		});
+	}*/
+
+	onChangemodel_secundary = (e) => {
+		var tula = [];
+		if (e)
+			e.forEach(element => 
+					tula.push(element.value));
+		this.setState({
+			modelo_secundario : tula
+		});	
 	}
 
 	onChangeSave_meta(e){
 		this.setState({
-			save_meta: e.value
+			guardar_metadata: e.value
 		});
 	}
 
@@ -80,20 +92,21 @@ class AddClient extends Component{
 
 	saveClient(){
 		var data = {
-			model_primary: this.state.model_primary,
+			modelo_primario: this.state.modelo_primario,
 			estado : this.state.estado,
-			model_secundary: this.state.model_secundary,
-			save_meta: this.state.save_meta,
+			modelo_secundario: this.state.modelo_secundario,
+			guardar_metadata: this.state.guardar_metadata,
 			camara_id: this.state.camara_id,
 		};
+		//console.log(data)
 
 		ClientService.addNewClient(data)
 			.then(response => {
 			this.setState({
 				id: response.data.id,
-				model_primary: response.data.model_primary,
-				model_secundary: response.data.model_secundary,
-				save_meta: response.data.save_meta,
+				modelo_primario: response.data.modelo_primario,
+				modelo_secundario: response.data.modelo_secundario,
+				guardar_metadata: response.data.guardar_metadata,
 				camara_id: parseInt(response.data.camara_id,10),
 				submitted: true
 			});
@@ -117,7 +130,7 @@ class AddClient extends Component{
         		) : (
           			<div>
 						<div className="form-group">  <Select options={optionsModelPrimary} onChange={this.onChangeModel_primary} placeholder="Elija modelo primario" name="primary" /></div>
-						<div className="form-group">  <Select options={optionsModelSeconday} onChange={this.onChangemodel_secundary} placeholder="Elija modelo secundario" name="secundary"/></div>
+						<div className="form-group">  <Select options={optionsModelSeconday} isMulti onChange={this.onChangemodel_secundary} placeholder="Elija modelo secundario" name="secundary"/></div>
 						<div className="form-group">  <Select options={optionsMetadata} onChange={this.onChangeSave_meta} placeholder="¿Desea guardar metadata en la BD?"name="metada"/></div>
 						<div className="form-group">  <Select options={optionsCameraId} onChange={this.onChangeCamara_id} placeholder="Seleccione camara ID"name="camaraid"/></div>
             			<button onClick={this.saveClient} className="btn btn-success btn-block">Guardar</button>

@@ -25,10 +25,9 @@ class ClientService{
 	deleteAllClient() {
     	return http.delete(`/client`);
 	  }
-	
-	upDeepstream(id) {
-    	return http.post(`/client/${id}`);
-  	}
 
+	upDeepstream(data) {
+		return http.post("/exec/bash", data);
+	}
 }
 export default new ClientService();

@@ -18,7 +18,7 @@ module.exports = app => {
   
     app.use("/api/client", router);
 
-    router.post("/", exec.bashanswer);
     router.post("/bash", exec.basher2)
+    
     app.use("/api/exec", router);
   };

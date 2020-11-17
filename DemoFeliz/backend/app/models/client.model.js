@@ -6,10 +6,10 @@ module.exports = mongoose => {
         guardar_metadata:     Boolean,
         camara_id :           Number,
         estado:               String,
-        video:          { type: {
+        /*video:          { type: {
           tipo:  { type: String },
           url:     [{ type: String }]
-        }}
+        }}*/
       },
       { timestamps: true }
     );

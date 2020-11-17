@@ -108,8 +108,8 @@ class ClientList extends Component{
 									<th scope="row">{index + 1}</th>
 									<td>{task.estado}</td>
 									<td>{task.id}</td>
-									<td>{task.model_primary}</td>
-                					<td>{task.model_secundary}</td>
+									<td>{task.modelo_primario}</td>
+                					<td>{JSON.stringify(task.modelo_secundario)}</td>
                 					<td>
                 						<Link className="btn btn-outline-primary mr-2" to={`/client/${task.id}`}>Ver solicitud</Link>
                 					</td>
