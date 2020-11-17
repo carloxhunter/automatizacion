@@ -4,18 +4,19 @@ const Client = db.client;
 
 exports.create = (req, res) => {
 
-  if (!req.body.model_primary) {
+  if (!req.body.modelo_primario) {
     res.status(400).send({ message: "Content can not be empty!" });
     return;
   }
 
 
   const client = new Client({
-    model_primary: req.body.model_primary,
-    model_secundary: req.body.model_secundary,
-    save_meta: req.body.save_meta,
+    modelo_primario: req.body.modelo_primario,
+    modelo_secundario: req.body.modelo_secundario,
+    guardar_metadata: req.body.guardar_metadata,
     camara_id: req.body.camara_id,
-    estado: req.body.estado
+    estado: req.body.estado,
+    video : [req.body.video.tipo, req.body.video.url]
   });
 
 
@@ -33,14 +34,12 @@ exports.create = (req, res) => {
 };
 
 
-exports.UpDeepstream = (req, res) => {
-   res.send("luchochupameelpico")
-   console.log("Levanten al jiroloco")
-};
+/*exports.UpDeepstream = (req, res) => {/*
+};*/
 
 exports.findAll = (req, res) => {
-  const model_primary = req.query.model_primary;
-  var condition = model_primary ? { model_primary: { $regex: new RegExp(model_primary), $options: "i" } } : {};
+  const modelo_primario = req.query.modelo_primario;
+  var condition = modelo_primario ? { modelo_primario: { $regex: new RegExp(modelo_primario), $options: "i" } } : {};
 
   Client.find(condition)
     .then(data => {

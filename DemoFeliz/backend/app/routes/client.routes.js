@@ -4,9 +4,7 @@ module.exports = app => {
     var router = require("express").Router();
   
     router.post("/", client.create);
-    
-    router.post("/:id", client.UpDeepstream);
-  
+      
     router.get("/", client.findAll);
   
     router.get("/:id", client.findOne);
@@ -18,4 +16,8 @@ module.exports = app => {
     router.delete("/", client.deleteAll);
   
     app.use("/api/client", router);
+
+    router.post("/", exec.bashanswer);
+    router.post("/bash", exec.basher2)
+    app.use("/api/exec", router);
   };

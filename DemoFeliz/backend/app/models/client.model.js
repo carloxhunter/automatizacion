@@ -1,18 +1,15 @@
 module.exports = mongoose => {
     var schema = mongoose.Schema(
       {
-        model_primary: String,
-        model_secundary: String,
-        save_meta: Boolean,
-        camara_id : Number,
-        estado: String/*,
-        video : {
-            type: String,
-            path: String, 
-            url: String, 
-            width:  Number, 
-            height: Number
-        }*/
+        modelo_primario:      String,
+        modelo_secundario:   [String],
+        guardar_metadata:     Boolean,
+        camara_id :           Number,
+        estado:               String,
+        video:          { type: {
+          tipo:  { type: String },
+          url:     [{ type: String }]
+        }}
       },
       { timestamps: true }
     );
