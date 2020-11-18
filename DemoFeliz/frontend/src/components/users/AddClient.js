@@ -19,17 +19,6 @@ const optionsMetadata = [
 	{ value: false, label: 'No' },
 ];
 
-const optionsCameraId = [
-	{ value: 1, label: '1' },
-	{ value: 2, label: '2' },
-	{ value: 3, label: '3' },
-	{ value: 4, label: '4' },
-	{ value: 5, label: '5' },
-	{ value: 6, label: '6' },
-	{ value: 7, label: '7' },
-	{ value: 8, label: '8' },
-	{ value: 9, label: '8' }
-];
 
 //const jiro = [];
 
@@ -48,7 +37,7 @@ class AddClient extends Component{
 			modelo_primario: "",
 			modelo_secundario: [],
 			guardar_metadata: "",
-			camara_id: "",
+			camara_id: '',
 			estado: "No procesando",
 			submitted: false
 		};
@@ -84,10 +73,9 @@ class AddClient extends Component{
 		});
 	}
 
-	onChangeCamara_id(e){
-		this.setState({
-			camara_id: e.value
-		});
+	onChangeCamara_id(evt) {
+		const financialGoal = (evt.target.validity.valid) ? evt.target.value : this.state.camara_id;
+		this.setState({ camara_id : financialGoal });
 	}
 
 	saveClient(){
@@ -132,7 +120,9 @@ class AddClient extends Component{
 						<div className="form-group">  <Select options={optionsModelPrimary} onChange={this.onChangeModel_primary} placeholder="Elija modelo primario" name="primary" /></div>
 						<div className="form-group">  <Select options={optionsModelSeconday} isMulti onChange={this.onChangemodel_secundary} placeholder="Elija modelo secundario" name="secundary"/></div>
 						<div className="form-group">  <Select options={optionsMetadata} onChange={this.onChangeSave_meta} placeholder="¿Desea guardar metadata en la BD?"name="metada"/></div>
-						<div className="form-group">  <Select options={optionsCameraId} onChange={this.onChangeCamara_id} placeholder="Seleccione camara ID"name="camaraid"/></div>
+						<div className="form-group"> 
+							<label htmlFor="camara_id">Camara id: </label>
+							<input type="text" pattern="[0-9]*" onInput={this.onChangeCamara_id.bind(this)} value={this.state.camara_id}/>   </div>
             			<button onClick={this.saveClient} className="btn btn-success btn-block">Guardar</button>
           			</div>
         		)}
