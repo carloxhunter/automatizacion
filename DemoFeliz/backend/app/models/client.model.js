@@ -4,8 +4,8 @@ module.exports = mongoose => {
         modelo_primario:      String,
         modelo_secundario:   [String],
         guardar_metadata:     Boolean,
-        camara_id :           Number,
         estado:               String,
+        url: [String]
         /*video:          { type: {
           tipo:  { type: String },
           url:     [{ type: String }]
