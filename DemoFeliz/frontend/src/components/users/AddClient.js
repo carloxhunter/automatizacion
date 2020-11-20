@@ -19,17 +19,6 @@ const optionsMetadata = [
 	{ value: false, label: 'No' },
 ];
 
-const optionsCameraId = [
-	{ value: 1, label: '1' },
-	{ value: 2, label: '2' },
-	{ value: 3, label: '3' },
-	{ value: 4, label: '4' },
-	{ value: 5, label: '5' },
-	{ value: 6, label: '6' },
-	{ value: 7, label: '7' },
-	{ value: 8, label: '8' },
-	{ value: 9, label: '8' }
-];
 
 //const jiro = [];
 
@@ -40,7 +29,6 @@ class AddClient extends Component{
 		this.onChangeModel_primary = this.onChangeModel_primary.bind(this);
 		this.onChangemodel_secundary = this.onChangemodel_secundary.bind(this);
 		this.onChangeSave_meta = this.onChangeSave_meta.bind(this);
-		this.onChangeCamara_id = this.onChangeCamara_id.bind(this);
 		this.saveClient = this.saveClient.bind(this);
 
 		this.state = {
@@ -48,8 +36,8 @@ class AddClient extends Component{
 			modelo_primario: "",
 			modelo_secundario: [],
 			guardar_metadata: "",
-			camara_id: "",
 			estado: "No procesando",
+			url: [],
 			submitted: false
 		};
 
@@ -60,13 +48,6 @@ class AddClient extends Component{
 			modelo_primario: e.value
 		});
 	}
-/*
-	onChangemodel_secundary(e){
-		console.log(e);
-		this.setState({
-			modelo_secundario: e.value
-		});
-	}*/
 
 	onChangemodel_secundary = (e) => {
 		var tula = [];
@@ -84,21 +65,15 @@ class AddClient extends Component{
 		});
 	}
 
-	onChangeCamara_id(e){
-		this.setState({
-			camara_id: e.value
-		});
-	}
-
 	saveClient(){
+		console.log(this.state);
 		var data = {
 			modelo_primario: this.state.modelo_primario,
 			estado : this.state.estado,
 			modelo_secundario: this.state.modelo_secundario,
 			guardar_metadata: this.state.guardar_metadata,
-			camara_id: this.state.camara_id,
+			url: this.state.url
 		};
-		//console.log(data)
 
 		ClientService.addNewClient(data)
 			.then(response => {
@@ -107,7 +82,7 @@ class AddClient extends Component{
 				modelo_primario: response.data.modelo_primario,
 				modelo_secundario: response.data.modelo_secundario,
 				guardar_metadata: response.data.guardar_metadata,
-				camara_id: parseInt(response.data.camara_id,10),
+				url: response.data.url,
 				submitted: true
 			});
 		})
@@ -116,6 +91,20 @@ class AddClient extends Component{
       });
 	}
 
+	addUrl(){
+		this.setState({url: [...this.state.url, ""]});
+	}
+
+	handleChange(e, index){
+		this.state.url[index] = e.target.value; 
+		this.setState({url: this.state.url})
+	}
+
+	handleRemove(index){ 
+		this.state.url.splice(index,1); 
+		console.log(this.state.url,"$$$$"); 
+		this.setState({url: this.state.url})
+	}
 	
 	render() {
     	return (
@@ -132,8 +121,24 @@ class AddClient extends Component{
 						<div className="form-group">  <Select options={optionsModelPrimary} onChange={this.onChangeModel_primary} placeholder="Elija modelo primario" name="primary" /></div>
 						<div className="form-group">  <Select options={optionsModelSeconday} isMulti onChange={this.onChangemodel_secundary} placeholder="Elija modelo secundario" name="secundary"/></div>
 						<div className="form-group">  <Select options={optionsMetadata} onChange={this.onChangeSave_meta} placeholder="¿Desea guardar metadata en la BD?"name="metada"/></div>
-						<div className="form-group">  <Select options={optionsCameraId} onChange={this.onChangeCamara_id} placeholder="Seleccione camara ID"name="camaraid"/></div>
-            			<button onClick={this.saveClient} className="btn btn-success btn-block">Guardar</button>
+						<div className="form-group">
+							{
+								this.state.url.map((url,index)=>{
+									return(
+										<form class="form-inline">
+
+										<div key={index} class="text-center mb-4">
+											<input placeholder={"RTSP "+index} className="form-control" onChange={(e)=>this.handleChange(e,index)} value={url}/>
+										</div>
+										<button onClick={(e)=>this.handleRemove(e)} className="btn btn-danger mb-4">Remove</button>
+										</form>
+									)
+								})
+							}
+							<button onClick={(e)=>this.addUrl(e)}  className="btn btn-info">Agregar RTSP</button>
+						</div>
+
+            			<button onClick={this.saveClient} className="btn btn-primary btn-block">Guardar</button>
           			</div>
         		)}
       		</div>

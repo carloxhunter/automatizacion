@@ -21,7 +21,7 @@ class ClientDetails extends Component{
 				modelo_secundario: "",
 				guardar_metadata: false,
 				estado : "",
-				camara_id: ""
+				url:""
 				
 			}
 		}
@@ -69,9 +69,7 @@ class ClientDetails extends Component{
 
 	sendTask = () => {
 		const data = {
-			"token": "abc12345",
-			"version": "5.0",
-			"puerto": "8550"
+			"token": this.state.currentTask.id
 		  }
 		ClientService.upDeepstream(data).then(response => {
 		//ClientService.upDeepstream(this.state.currentTask.id).then(response => {
@@ -120,7 +118,7 @@ class ClientDetails extends Component{
 							<li className="list-group-item">modelo_primario: {currentTask.modelo_primario}</li>
 							<li className="list-group-item">modelo_secundario: {JSON.stringify(currentTask.modelo_secundario)}</li>
 							<li className="list-group-item">guardar_metadata: {JSON.stringify(currentTask.guardar_metadata)}</li>
-							<li className="list-group-item">camara_id: {currentTask.camara_id}</li>
+							<li className="list-group-item">RTSP: {JSON.stringify(currentTask.url)}</li>
 						</ul>
 					</div>
 				</div>
