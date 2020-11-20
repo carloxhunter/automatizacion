@@ -148,7 +148,7 @@ load();
         res.status(400).send({ message: "debes poner un token"});
         return;
       }
-    var version= "5.0"
+    var version= "5.1"
     
 
     /*
@@ -293,3 +293,103 @@ async function espera_segundos (res, seg, msg) { // We need to wrap the loop int
   }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  exports.Shutdocker = (req, res) => {
+    var id = req.body.id
+    
+
+    if (!req.body.id) {
+        res.status(400).send({ message: "debes poner un id"});
+        return;
+      }
+    
+    
+async function DockerStop(bf, id){
+  cmd='docker stop '+id
+  const { stdout, stderr } = await execs(cmd)  
+  console.log(cmd)
+  if(stdout) {
+    res.send({msg:"Se ha eliminado docker: "+stdout,
+  docker:stdout})
+  return;
+  } else if (stderr){
+    res.status(500).send({ msg:err});
+    return;
+  }
+
+}
+
+DockerStop('', id).catch(err => {
+  console.log(err)
+  res.status(500).send({ message:err});
+  }
+ )
+
+    
+
+  }
+
+
+
+  exports.ShutAll = (req, res) => {
+    var pw = req.body.pw
+    
+
+    if (!req.body.pw) {
+        res.status(400).send({ message: "debes ingresar la contrasena"});
+        return;
+      }
+    
+    
+async function StopAll(bf){
+  
+      cmd='docker stop $(docker ps -aq)'
+      const { stdout, stderr } = await execs(cmd)  
+      if(stdout) {
+        res.send({msg:"Se han todos los eliminado docker: "+stdout,
+      docker:stdout})
+      return;
+      } else if (stderr){
+        res.status(500).send({ msg:err});
+        return;
+     } }
+
+
+  if(pw === 'jiro12345'){
+     StopAll('').catch(err => {
+      console.log(err)
+      res.status(500).send({ msg:err});
+      }
+     )
+} else{
+  res.status(500).send({ msg:"Clave incorrecta"});
+  return;
+}
+
+  
+    
+
+  }
