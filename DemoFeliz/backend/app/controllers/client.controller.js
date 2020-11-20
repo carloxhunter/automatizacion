@@ -14,8 +14,8 @@ exports.create = (req, res) => {
     modelo_primario: req.body.modelo_primario,
     modelo_secundario: req.body.modelo_secundario,
     guardar_metadata: req.body.guardar_metadata,
-    camara_id: req.body.camara_id,
     estado: req.body.estado,
+    url: req.body.url
     /*video : [req.body.video.tipo, req.body.video.url]*/
   });
 
