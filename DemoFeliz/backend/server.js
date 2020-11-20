@@ -31,9 +31,7 @@ app.get("/", (req, res) => {
   res.json({ message: "Welc0ome to backend application." });
 });
 
-appgit .get("/jiro", (req, res) => {
-  res.json({ message: "jirororo" });
-});
+
 
 require("./app/routes/user.routes")(app);
 require("./app/routes/adres.routes")(app);
