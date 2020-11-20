@@ -1,33 +1,33 @@
 import React,{Component} from 'react';
 
-import UserService from '../../services/UserService';
+import ClientService from '../../services/ClientService';
 import { Link } from "react-router-dom";
 
-class UsersList extends Component{
+class ClientList extends Component{
 
 	constructor(props){
 		super(props);
-		this.loadUsers = this.loadUsers.bind(this);
-		this.removeAllUsers = this.removeAllUsers.bind(this);
+		this.loadTasks = this.loadTasks.bind(this);
+		this.removeAllTasks = this.removeAllTasks.bind(this);
 		this.refreshList = this.refreshList.bind(this);
 
 		this.state = {
-			users: [],
-			currentUser: {
+			tasks: [],
+			currentTask: {
 				id: null
 			}
 		}
 	}
 
 	componentDidMount() {
-    	this.loadUsers();
+    	this.loadTasks();
   	}
 
-	loadUsers(){
-		UserService.getAllUsers()
+	loadTasks(){
+		ClientService.getAllClient()
 		.then(response => {
 			this.setState({
-				users: response.data
+				tasks: response.data
 			});
 		})
 		.catch(e => {
@@ -36,11 +36,12 @@ class UsersList extends Component{
 	}
 
 	refreshList(){
-		this.loadUsers();
+		this.loadTasks();
 	}
 
-	removeAllUsers(){
-		UserService.deleteAllUsers()
+	removeAllTasks(){
+		console.log("oie")
+		ClientService.deleteAllClient()
 		.then(response => {
 			console.log(response.data);
 			this.refreshList();
@@ -50,35 +51,41 @@ class UsersList extends Component{
       	});
 	}
 
+	sendTask(){
+		console.log("jiro")
+
+	}
+	
+
 	
 	render(){
-		const { users } = this.state;
+		const { tasks } = this.state;
 		return(
 			<div className="container">
 				<div className="py-4">
-					<h1 className="text-center">User List</h1>
+					<h1 className="text-center">Lista de tareas</h1>
 				</div>
 				<div className="row">
 					<div className="col-lg">
-						<button className="btn btn-danger btn-block" data-toggle="modal" data-target="#deleteAllUsersModal">Delete All Users</button>
+						<button className="btn btn-danger btn-block" data-toggle="modal" data-target="#deleteAllUsersModal">Eliminar todas las tareas</button>
 					</div>
 				</div>
 				<div className="modal fade" tabIndex="-1" aria-hidden="true" id="deleteAllUsersModal">
 					<div className="modal-dialog">
 						<div className="modal-content">
 							<div className="modal-header">
-								<h2 className="modal-title">Delete All Users</h2>
+								<h2 className="modal-title">Eliminar todas las tareas</h2>
 								<button type="button" className="close" data-dismiss="modal" aria-label="Close">
           							<span aria-hidden="true">&times;</span>
         						</button>
 							</div>
 							<div className="modal-body">
-								<p>Are you sure delete all users?</p>
+								<p>¿Estas seguro?</p>
 							</div>
 							<div className="modal-footer">
-								<button className="btn btn-danger" onClick={this.removeAllUsers} 
-								data-dismiss="modal" aria-label="Close">Delete All Users</button>
-								<button className="btn btn-primary" aria-label="Close" data-dismiss="modal">Cancel</button>
+								<button className="btn btn-danger" onClick={this.removeAllTasks} 
+								data-dismiss="modal" aria-label="Close">Eliminar todas las tareas</button>
+								<button className="btn btn-primary" aria-label="Close" data-dismiss="modal">Cancelar</button>
 							</div>
 						</div>
 					</div>
@@ -88,20 +95,23 @@ class UsersList extends Component{
 						<thead className="thead-dark">
 							<tr>
 								<th scope="col">#</th>
-								<th scope="col">Username</th>
-								<th scope="col">Email</th>
+								<th scope="col">Estado</th>
+								<th scope="col">Id</th>
+								<th scope="col">Modelo primario</th>
+								<th scope="col">Modelo secundario</th>
 								<th>Actions</th>
 							</tr>
 						</thead>
 						<tbody>
-							{users.map((user,index) => (
-								<tr key={user.id}>
+							{tasks.map((task,index) => (
+								<tr key={task.id}>
 									<th scope="row">{index + 1}</th>
-									<td>{user.username}</td>
-                					<td>{user.email}</td>
+									<td>{task.estado}</td>
+									<td>{task.id}</td>
+									<td>{task.modelo_primario}</td>
+                					<td>{JSON.stringify(task.modelo_secundario)}</td>
                 					<td>
-                						<Link className="btn btn-outline-primary mr-2" to={`/users/${user.id}`}>View</Link>
-                						<Link className="btn btn-outline-warning mr-2" to={`/users/edit/${user.id}`}>Edit</Link>
+                						<Link className="btn btn-outline-primary mr-2" to={`/client/${task.id}`}>Ver solicitud</Link>
                 					</td>
 								</tr>
 							))}
@@ -112,4 +122,4 @@ class UsersList extends Component{
 		)
 	}
 }
-export default UsersList;
+export default ClientList;
