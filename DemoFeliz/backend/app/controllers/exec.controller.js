@@ -1,5 +1,19 @@
+//const { exec } = require('child_process');
+
 const exec = require('child_process').exec;
 var portscanner = require('portscanner');
+
+/*
+const myShellScript = exec('sh doSomething.sh /myDir');
+myShellScript.stdout.on('data', (data)=>{
+    console.log(data); 
+    // do whatever you want here with data
+});
+myShellScript.stderr.on('data', (data)=>{
+    console.error(data);
+});
+*/
+
 
 exports.bashanswer = (req, res) => {
     var jirata=""

@@ -69,9 +69,7 @@ class ClientDetails extends Component{
 
 	sendTask = () => {
 		const data = {
-			"token": "abc12345",
-			"version": "5.0",
-			"puerto": "8550"
+			"token": this.state.currentTask.id
 		  }
 		ClientService.upDeepstream(data).then(response => {
 		//ClientService.upDeepstream(this.state.currentTask.id).then(response => {
