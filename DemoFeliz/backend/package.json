@@ -13,6 +13,7 @@
     "cors": "^2.8.5",
     "exec": "^0.2.1",
     "express": "^4.17.1",
-    "mongoose": "^5.10.9"
+    "mongoose": "^5.10.9",
+    "node-rtsp-stream": "0.0.9"
   }
 }

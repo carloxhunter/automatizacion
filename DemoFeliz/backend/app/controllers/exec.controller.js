@@ -1,18 +1,5 @@
-//const { exec } = require('child_process');
-
 const exec = require('child_process').exec;
-
-/*
-const myShellScript = exec('sh doSomething.sh /myDir');
-myShellScript.stdout.on('data', (data)=>{
-    console.log(data); 
-    // do whatever you want here with data
-});
-myShellScript.stderr.on('data', (data)=>{
-    console.error(data);
-});
-*/
-
+var portscanner = require('portscanner');
 
 exports.bashanswer = (req, res) => {
     var jirata=""
@@ -98,7 +85,6 @@ load();
 
 
     /*
-
     Company.findById(id)
       .then(data => {
         if (!data)
@@ -111,23 +97,41 @@ load();
           .send({ message: "Error retrieving Company with id="});
       });
   };
-
-
   */
 
 
  const util = require('util');
  const execs = util.promisify(require('child_process').exec);
 
+ var portscanner = require('portscanner')
+ 
+ function returnfirstportaval(init, end){
+    for (i = init; i <= end; i++){
+
+      portscanner.checkPortStatus(port, '127.0.0.1', function(error, status) {
+        // Status is 'open' if currently in use or 'closed' if available
+        //console.log(status)
+        //console.log("jiro2")
+        if (status === 'closed')
+               return port
+      
+      })
+
+    }
+ }
+
+ 
+
+
  exports.basher2 = (req, res) => {
     var jirata=""
     var str1 = req.body.token;  //da igual
 
-    if (!req.body.token || !req.body.version || !req.body.puerto) {
-        res.status(400).send({ message: "debes poner un token, version y puerto" });
+    if (!req.body.token) {
+        res.status(400).send({ message: "debes poner un token"});
         return;
       }
-
+    var version= "5.1"
     
 
     /*
@@ -212,17 +216,21 @@ async function DockerExec(bf, token) {
      */
 
 token=req.body.token
-version=req.body.version
-puerto=req.body.puerto
+var init = 8550
+var end = 8650
+portscanner.findAPortNotInUse(init, end, function (error, port) {
+  if(port){
+  console.log('Puerto Escojido: ' + port)
 
-
-
- DockerRun("", version, puerto, token).
+  DockerRun("", version, port, token).
  then(run_out => DockerExec(run_out, token)).then(exec_out => {
   ip='3.131.221.80'  
-  stream='rtsp://'+ip+':'+puerto+'/ds-test'
+  stream='rtsp://'+ip+':'+port+'/ds-test'
   out= exec_out + stream+'\n porfavor espere 2 minutos antes de ver el stream'
-  res.send(out) 
+  console.log(stream)
+  res.send({message:out,
+  rtsp:stream,
+idtoken: token}) 
 
 } ).
  
@@ -233,12 +241,29 @@ puerto=req.body.puerto
      )
          
 
+    
+
+
+  }
 
 
 
-
-
+  else if (error){
+console.log("error: "+error)
+res.status(500).send({ message: "no se pudo abrir o encontrar puertos",
+errors:error });
+return;
 }
+
+
+
+ 
+
+
+
+
+})
+ }
 
 
 
@@ -251,3 +276,103 @@ async function espera_segundos (res, seg, msg) { // We need to wrap the loop int
   }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  exports.Shutdocker = (req, res) => {
+    var id = req.body.id
+    
+
+    if (!req.body.id) {
+        res.status(400).send({ message: "debes poner un id"});
+        return;
+      }
+    
+    
+async function DockerStop(bf, id){
+  cmd='docker stop '+id
+  const { stdout, stderr } = await execs(cmd)  
+  console.log(cmd)
+  if(stdout) {
+    res.send({msg:"Se ha eliminado docker: "+stdout,
+  docker:stdout})
+  return;
+  } else if (stderr){
+    res.status(500).send({ msg:err});
+    return;
+  }
+
+}
+
+DockerStop('', id).catch(err => {
+  console.log(err)
+  res.status(500).send({ message:err});
+  }
+ )
+
+    
+
+  }
+
+
+
+  exports.ShutAll = (req, res) => {
+    var pw = req.body.pw
+    
+
+    if (!req.body.pw) {
+        res.status(400).send({ message: "debes ingresar la contrasena"});
+        return;
+      }
+    
+    
+async function StopAll(bf){
+  
+      cmd='docker stop $(docker ps -aq)'
+      const { stdout, stderr } = await execs(cmd)  
+      if(stdout) {
+        res.send({msg:"Se han todos los eliminado docker: "+stdout,
+      docker:stdout})
+      return;
+      } else if (stderr){
+        res.status(500).send({ msg:err});
+        return;
+     } }
+
+
+  if(pw === 'jiro12345'){
+     StopAll('').catch(err => {
+      console.log(err)
+      res.status(500).send({ msg:err});
+      }
+     )
+} else{
+  res.status(500).send({ msg:"Clave incorrecta"});
+  return;
+}
+
+  
+    
+
+  }
