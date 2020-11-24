@@ -1,3 +1,21 @@
+import React from 'react';
+import ChromeDinoGame from 'react-chrome-dino';
+
+
+function Home(){
+    return(
+        <div className="container">
+            <h1 className="py-4">App pruebas OMIA</h1>
+            <ChromeDinoGame />
+        </div>
+    )
+}
+export default Home;
+
+
+/*
+export default Home;
+
 import React,{Component} from 'react';
 import ChromeDinoGame from 'react-chrome-dino';
 
@@ -26,7 +44,7 @@ class Home extends Component{
 		)
 	}
 }
-export default Home;
+export default Home;*/
 
 /*import React, { Component, useState, useEffect } from 'react'
 import img1 from '../testImages/road4.jpg'

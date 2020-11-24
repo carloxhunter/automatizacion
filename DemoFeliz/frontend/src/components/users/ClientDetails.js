@@ -12,6 +12,7 @@ class ClientDetails extends Component{
 		this.deleteClient = this.deleteClient.bind(this);
 		this.sendTask = this.sendTask.bind(this);
 		this.updateClient = this.updateClient.bind(this);
+		this.stopDocker = this.stopDocker.bind(this);
 
 
 		this.state = {
@@ -90,6 +91,27 @@ class ClientDetails extends Component{
 	}
 
 
+	stopDocker = () => {
+		const data = {
+			id: this.state.currentTask.id
+			}
+		ClientService.finishIdDocker(data).then(response => {
+		}).catch(e => {
+			console.log(e);
+		});
+		this.setState(function(prevState){
+			return{
+				currentTask: {
+				...prevState.currentTask,
+				estado: "No procesando"
+				}
+			};
+			}, () =>{
+			this.updateClient();
+			})
+		}
+
+
 	render(){
 		const { currentTask } = this.state;
 		return(
@@ -102,13 +124,13 @@ class ClientDetails extends Component{
 						<Link className="btn btn-dark btn-block" to="/client">Volver a lista de tareas</Link>
 					</div>
 					<div className="col-md">
-						<button className="btn btn-danger btn-block" onClick={this.deleteClient}>Eliminar tarea</button>
+						<button className="btn btn-warning btn-block" onClick={this.deleteClient}>Eliminar tarea</button>
 					</div>
 					{currentTask.estado === "No procesando" ?(
 					<div className="col-md">
-						<button className="btn btn-warning btn-block" onClick={this.sendTask}>Enviar a procesar</button>
+						<button className="btn btn-success btn-block" onClick={this.sendTask}>Enviar a procesar</button>
 					</div>):(<div className="col-md">
-						<button className="btn btn-light btn-block">Procesando en estos momentos</button>
+						<button className="btn btn-danger btn-block" onClick={this.stopDocker}>Detener procesamiento</button>
 					</div>)}
 				</div>
 				<div className="row">

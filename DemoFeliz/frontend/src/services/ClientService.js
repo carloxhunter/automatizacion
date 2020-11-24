@@ -1,3 +1,4 @@
+//import httpCommon from "./http-common";
 import http from "./http-common";
 
 class ClientService{
@@ -26,8 +27,16 @@ class ClientService{
     	return http.delete(`/client`);
 	  }
 
-	upDeepstream(data) {
+	upDeepstream(data){
 		return http.post("/exec/bash", data);
+	}
+
+	finishalldocker(data){
+		return http.post(`/exec/shutall`, data);
+	}
+
+	finishIdDocker(data){
+		return http.post(`/exec/shutdocker`, data);
 	}
 }
 export default new ClientService();

@@ -10,12 +10,15 @@ class ClientList extends Component{
 		this.loadTasks = this.loadTasks.bind(this);
 		this.removeAllTasks = this.removeAllTasks.bind(this);
 		this.refreshList = this.refreshList.bind(this);
+		this.stopAllTasks = this.stopAllTasks.bind(this);
+		this.handleChange = this.handleChange.bind(this);
 
 		this.state = {
 			tasks: [],
 			currentTask: {
 				id: null
-			}
+			},
+			password:''
 		}
 	}
 
@@ -51,12 +54,27 @@ class ClientList extends Component{
       	});
 	}
 
-	sendTask(){
-		console.log("jiro")
+	stopAllTasks(event){
+		event.preventDefault();
 
+		var data = {
+			pw: this.state.password
+		}
+		ClientService.finishalldocker(data)
+		.then(response => {
+			console.log(response.data);
+			this.refreshList();
+		})
+		.catch(e => {
+        	console.log(e);
+      	});
 	}
-	
 
+	handleChange(event){
+		this.setState({
+			password : event.target.value
+		})
+	}
 	
 	render(){
 		const { tasks } = this.state;
@@ -68,6 +86,9 @@ class ClientList extends Component{
 				<div className="row">
 					<div className="col-lg">
 						<button className="btn btn-danger btn-block" data-toggle="modal" data-target="#deleteAllUsersModal">Eliminar todas las tareas</button>
+					</div>
+					<div className="col-lg">
+						<button className="btn btn-danger btn-block" data-toggle="modal" data-target="#stopAllDockerModal">Parar todos los procesamientos</button>
 					</div>
 				</div>
 				<div className="modal fade" tabIndex="-1" aria-hidden="true" id="deleteAllUsersModal">
@@ -90,6 +111,28 @@ class ClientList extends Component{
 						</div>
 					</div>
 				</div>
+				<div className="modal fade" tabIndex="-1" aria-hidden="true" id="stopAllDockerModal">
+					<div className="modal-dialog">
+						<div className="modal-content">
+							<div className="modal-header">
+								<h2 className="modal-title">Detener todos los procesamientos</h2>
+								<button type="button" className="close" data-dismiss="modal" aria-label="Close">
+          							<span aria-hidden="true">&times;</span>
+        						</button>
+							</div>
+							<div className="modal-body">
+								<p>¿Estas seguro?</p>
+								<input placeholder={"Contraseña"} className="form-control" onChange={this.handleChange} value={this.state.password}/>
+							</div>
+							<div className="modal-footer">
+								<button className="btn btn-danger" onClick={this.stopAllTasks} 
+								data-dismiss="modal" aria-label="Close">Detener</button>
+								<button className="btn btn-primary" aria-label="Close" data-dismiss="modal">Cancelar</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
 				<div className="py-4">
 					<table className="table border shadow">
 						<thead className="thead-dark">
