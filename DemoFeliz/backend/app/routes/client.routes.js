@@ -5,6 +5,8 @@ module.exports = app => {
     var router = require("express").Router();
   
     router.post("/", client.create);
+
+    router.get("/shutdownall", client.UpdateShutDown);
       
     router.get("/", client.findAll);
   
@@ -15,10 +17,12 @@ module.exports = app => {
     router.delete("/:id", client.delete);
   
     router.delete("/", client.deleteAll);
+
+    
   
     app.use("/api/client", router);
 
-    router.post("/bash", exec.basher2)
-    
-    app.use("/api/exec", router);
+  
+
+
   };

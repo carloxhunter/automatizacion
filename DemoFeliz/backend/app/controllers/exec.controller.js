@@ -1,5 +1,7 @@
 //const { exec } = require('child_process');
 
+const db = require("../models");
+const Client = db.client;
 const exec = require('child_process').exec;
 var portscanner = require('portscanner');
 
@@ -145,7 +147,7 @@ load();
         res.status(400).send({ message: "debes poner un token"});
         return;
       }
-    var version= "5.1"
+    var version= "5.2"
     
 
     /*
@@ -172,7 +174,7 @@ load();
   });
   */
 async function DockerRun(bf, version, puerto, token) {
-  cmd='docker run --name '+token+' --gpus all -it -p '+puerto+':8550 -d --rm luchoaraya30/digevorep:'+version
+  cmd='docker run --name '+token+' --gpus all -it -p '+puerto+':8550/tcp -p '+puerto+':8550/udp -d --rm luchoaraya30/digevorep:'+version
   const { stdout, stderr } = await execs(cmd)  
   //const { stdout, stderr } = await execs('echo bf: '+bf+' version: '+version+' puerto: '+puerto+' token: '+token);
   console.log(cmd)
@@ -351,7 +353,7 @@ DockerStop('', id).catch(err => {
 
 
 
-  exports.ShutAll = (req, res) => {
+  exports.ShutAll = async (req, res) => {
     var pw = req.body.pw
     
 
@@ -376,11 +378,16 @@ async function StopAll(bf){
 
 
   if(pw === 'jiro12345'){
-     StopAll('').catch(err => {
+     StopAll('').then( () =>  {    
+     console.log("j2")  }                                 ).
+     catch(err => {
       console.log(err)
       res.status(500).send({ msg:err});
-      }
-     )
+      })
+      
+
+     
+    
 } else{
   res.status(500).send({ msg:"Clave incorrecta"});
   return;
@@ -390,3 +397,8 @@ async function StopAll(bf){
     
 
   }
+
+
+
+
+  

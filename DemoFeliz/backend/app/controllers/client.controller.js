@@ -14,7 +14,7 @@ exports.create = (req, res) => {
     modelo_primario: req.body.modelo_primario,
     modelo_secundario: req.body.modelo_secundario,
     guardar_metadata: req.body.guardar_metadata,
-    estado: req.body.estado,
+    estado: false,
     url: req.body.url
     /*video : [req.body.video.tipo, req.body.video.url]*/
   });
@@ -69,6 +69,37 @@ exports.findOne = (req, res) => {
         .send({ message: "Error retrieving User with id=" + id });
     });
 };
+/*
+exports.UpdateShutDown = async  (req, res) => {
+  //console.log('jiro1')
+  const ress = await Client.updateMany({"estado":true}, {"$set":{"estado":false}});
+  ress.n;
+  console.log(JSON.stringify(ress))
+  res.send('jiro2')
+}*/
+
+
+
+
+exports.UpdateShutDown = async  (req, res) => {
+  //console.log('jiro1')
+  Client.updateMany({"estado":true}, {"$set":{"estado":false}})
+  .then(data => {
+    if (!data) {
+      res.status(404).send({
+        message: 'err'
+      });
+      //ok se apagaron o ya estabana apagadas
+    } else res.send({ message: "ok" });
+  })
+  .catch(err => {
+    res.status(500).send({
+      message: "err"
+    });
+  });
+  
+}
+
 
 
 exports.update = (req, res) => {
