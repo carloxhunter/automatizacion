@@ -21,7 +21,7 @@ class ClientDetails extends Component{
 				modelo_primario: "",
 				modelo_secundario: "",
 				guardar_metadata: false,
-				estado : "",
+				estado : false,
 				url:""
 				
 			}
@@ -82,7 +82,7 @@ class ClientDetails extends Component{
 			return{
 			  currentTask: {
 				...prevState.currentTask,
-				estado: "Procesando"
+				estado: true
 			  }
 			};
 		  }, () =>{
@@ -103,7 +103,7 @@ class ClientDetails extends Component{
 			return{
 				currentTask: {
 				...prevState.currentTask,
-				estado: "No procesando"
+				estado: false
 				}
 			};
 			}, () =>{
@@ -126,7 +126,7 @@ class ClientDetails extends Component{
 					<div className="col-md">
 						<button className="btn btn-warning btn-block" onClick={this.deleteClient}>Eliminar tarea</button>
 					</div>
-					{currentTask.estado === "No procesando" ?(
+					{currentTask.estado === false ?(
 					<div className="col-md">
 						<button className="btn btn-success btn-block" onClick={this.sendTask}>Enviar a procesar</button>
 					</div>):(<div className="col-md">

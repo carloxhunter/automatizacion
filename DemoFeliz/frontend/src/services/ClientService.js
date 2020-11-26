@@ -3,6 +3,10 @@ import http from "./http-common";
 
 class ClientService{
 
+	updateprostatus(){
+		return http.get("/client/shutdownall");
+	}
+
 	getAllClient(){
 		return http.get("/client");
 	}
