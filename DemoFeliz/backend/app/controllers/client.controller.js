@@ -15,7 +15,8 @@ exports.create = (req, res) => {
     modelo_secundario: req.body.modelo_secundario,
     guardar_metadata: req.body.guardar_metadata,
     estado: false,
-    url: req.body.url
+    url: req.body.url,
+    salida: req.body.salida
     /*video : [req.body.video.tipo, req.body.video.url]*/
   });
 
@@ -83,7 +84,7 @@ exports.UpdateShutDown = async  (req, res) => {
 
 exports.UpdateShutDown = async  (req, res) => {
   //console.log('jiro1')
-  Client.updateMany({"estado":true}, {"$set":{"estado":false}})
+  Client.updateMany({"estado":true}, {"$set":{"estado":false, "salida":""}})
   .then(data => {
     if (!data) {
       res.status(404).send({
@@ -92,6 +93,8 @@ exports.UpdateShutDown = async  (req, res) => {
       //ok se apagaron o ya estabana apagadas
     } else res.send({ message: "ok" });
   })
+
+
   .catch(err => {
     res.status(500).send({
       message: "err"
@@ -99,6 +102,11 @@ exports.UpdateShutDown = async  (req, res) => {
   });
   
 }
+
+
+
+
+
 
 
 
