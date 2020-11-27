@@ -153,7 +153,7 @@ class ClientList extends Component{
 							{tasks.map((task,index) => (
 								<tr key={task.id}>
 									<th scope="row">{index + 1}</th>
-									<td>{task.estado}</td>
+									<td>{JSON.stringify(task.estado)}</td>
 									<td>{task.id}</td>
 									<td>{task.modelo_primario}</td>
                 					<td>{JSON.stringify(task.modelo_secundario)}</td>
