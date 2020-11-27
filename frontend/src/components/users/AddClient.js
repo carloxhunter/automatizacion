@@ -6,7 +6,7 @@ import ClientService from '../../services/ClientService';
 
 const optionsModelPrimary = [
 	{ value: 'peoplenet', label: 'Detector personas' },
-	{ value: 'trafficcam', label: 'Detector automoviles y personas' },
+	{ value: 'trafficam', label: 'Detector automoviles y personas' },
 ];
 
 const optionsModelSeconday = [
@@ -19,6 +19,8 @@ const optionsMetadata = [
 	{ value: false, label: 'No' },
 ];
 
+
+//const jiro = [];
 
 class AddClient extends Component{
 
@@ -34,9 +36,10 @@ class AddClient extends Component{
 			modelo_primario: "",
 			modelo_secundario: [],
 			guardar_metadata: "",
-			estado: false,
+			estado: "No procesando",
 			url: [],
-			submitted: false
+			submitted: false,
+			salida:""
 		};
 
 	}
@@ -70,7 +73,8 @@ class AddClient extends Component{
 			estado : this.state.estado,
 			modelo_secundario: this.state.modelo_secundario,
 			guardar_metadata: this.state.guardar_metadata,
-			url: this.state.url
+			url: this.state.url,
+			salida: this.state.salida
 		};
 
 		ClientService.addNewClient(data)
@@ -81,7 +85,9 @@ class AddClient extends Component{
 				modelo_secundario: response.data.modelo_secundario,
 				guardar_metadata: response.data.guardar_metadata,
 				url: response.data.url,
-				submitted: true
+				submitted: true,
+				salida: ""
+
 			});
 		})
 		.catch(e => {
