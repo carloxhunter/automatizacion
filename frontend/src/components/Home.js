@@ -83,20 +83,44 @@ function Home(props){
     const handleClick = (e) => {
         if (queDibujar==="LINE"){
             if(listCoord.length < 4){
+                if (listCoord.length === 3)
+                    if (comprobarInterseccion(listCoord[0],listCoord[1],listCoord[2],{x:coord.x, y:coord.y}))
+                        SetListCoord([
+                            ...listCoord,{
+                                x: coord.x,
+                                y: coord.y
+                            }
+                        ])
+                    else{
+                        alert("La direccion debe intersectar a la linea")
+                        listCoord.pop();
+                    }
+                else
+                    SetListCoord([
+                        ...listCoord,{
+                            x: coord.x,
+                            y: coord.y
+                        }
+                    ])
+            }
+        }else{
+            if (listCoord.length >=3)
+                if (!comprobarInterseccionPoligono(listCoord,{x:coord.x, y:coord.y}))
+                    SetListCoord([
+                        ...listCoord,{
+                            x: coord.x,
+                            y: coord.y
+                        }
+                    ])
+                else
+                    alert("Intersectaloco")
+            else 
                 SetListCoord([
                     ...listCoord,{
                         x: coord.x,
                         y: coord.y
                     }
                 ])
-            }
-        }else{
-            SetListCoord([
-                ...listCoord,{
-                    x: coord.x,
-                    y: coord.y
-                }
-            ])
         }
         return listCoord
     }
@@ -152,18 +176,7 @@ function Home(props){
             <Button variant="contained" color="primary" onClick={onGuardar}> Guardar Analitica </Button> 
             <Button variant="contained" color="primary" onClick={onBorrar}> Borrar </Button>
             <Button variant="contained" color="primary" onClick={onBorrartodo}> Borrar analiticas guardadas</Button> 
-            <div>
-            <ul>
-                {listCoord.map(e => (
-                <div>
-                <label>
-                    {JSON.stringify(e)}
-                </label>
-                </div>
-                ))}
-            </ul>
-            </div>
- 
+
         </div>
     )
 }
@@ -171,7 +184,7 @@ export default Home;
 
 
 function canvas_arrow(context, fromx, fromy, tox, toy) {
-    var headlen = 10; // length of head in pixels
+    var headlen = 10; 
     var dx = tox - fromx;
     var dy = toy - fromy;
     var angle = Math.atan2(dy, dx);
@@ -180,6 +193,19 @@ function canvas_arrow(context, fromx, fromy, tox, toy) {
     context.lineTo(tox - headlen * Math.cos(angle - Math.PI / 6), toy - headlen * Math.sin(angle - Math.PI / 6));
     context.moveTo(tox, toy);
     context.lineTo(tox - headlen * Math.cos(angle + Math.PI / 6), toy - headlen * Math.sin(angle + Math.PI / 6));
+}
+
+function ccw(A,B,C){
+ return (C.y-A.y) * (B.x-A.x) > (B.y-A.y) * (C.x-A.x)}
+
+function comprobarInterseccion(A,B,C,D){
+    return ((ccw(A,C,D) !== ccw(B,C,D)) && (ccw(A,B,C) !== ccw(A,B,D)))}
+
+function comprobarInterseccionPoligono(lista, nuevoPunto){
+    for (var i = 0; i < lista.length-1; i++)
+            if (comprobarInterseccion(lista[i], lista[i+1], lista[lista.length-1], nuevoPunto))
+                return true 
+    return false
 }
 
   /* <img ref={imageRef} onMouseMove={handleMove} src='https://finde.latercera.com/wp-content/uploads/2018/08/Fuente-Mardoqueo-ok.jpg' onClick={handleClick} alt="jiro" />
