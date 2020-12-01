@@ -20,7 +20,6 @@ class ClientDetails extends Component{
 				id: null,
 				modelo_primario: "",
 				modelo_secundario: "",
-				guardar_metadata: false,
 				estado : false,
 				url:"",
 				salida:""
@@ -73,32 +72,17 @@ class ClientDetails extends Component{
 		const data = {
 			"token": this.state.currentTask.id
 		  }
-		var lro=""
 		ClientService.upDeepstream(data).then(response => {
-		//ClientService.upDeepstream(this.state.currentTask.id).then(response => {
 			console.log("Respuesta de server " + response.data.rtsp)
-			//lro=response.data.rtsp
-			//this.updateClient();
 			this.state.currentTask.salida=response.data.rtsp
 			console.log(this.state.currentTask.salida)
-			//this.state.currentTask.ro=response.data.rtsp
-			/*
-			var currentTask = {...this.state.currentTask}
-			currentTask.ro=response.data.rtsp
-			this.setState({currentTask})
-			*/
+
 			ClientService.updateClient(this.state.currentTask.id,this.state.currentTask)
 			.then(response =>{
 				console.log(response.data);})
 				.catch(e => {
 					console.log(e);
-				  });
-			
-			
-				
-
-			
-			
+				  });	
 		})
 		
 		
@@ -107,12 +91,10 @@ class ClientDetails extends Component{
 			console.log(e);
 		});
 		this.setState(function(prevState){
-			//console.log(lro)
 			return{
 			  currentTask: {
 				...prevState.currentTask,
 				estado: true
-				//ro:lro
 			  }
 			};
 		  }, () =>{
@@ -171,7 +153,6 @@ class ClientDetails extends Component{
 							<li className="list-group-item">id: {currentTask.id}</li>
 							<li className="list-group-item">modelo_primario: {currentTask.modelo_primario}</li>
 							<li className="list-group-item">modelo_secundario: {JSON.stringify(currentTask.modelo_secundario)}</li>
-							<li className="list-group-item">guardar_metadata: {JSON.stringify(currentTask.guardar_metadata)}</li>
 							<li className="list-group-item">RTSP: {JSON.stringify(currentTask.url)}</li>
 							<li className="list-group-item">RTSP SALIDA: {currentTask.salida}</li>
 						</ul>

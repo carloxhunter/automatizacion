@@ -126,7 +126,7 @@ class ClientList extends Component{
 							</div>
 							<div className="modal-body">
 								<p>¿Estas seguro?</p>
-								<input placeholder={"Contraseña"} className="form-control" onChange={this.handleChange} value={this.state.password}/>
+								<input placeholder={"Contraseña"} type="password" className="form-control" onChange={this.handleChange} value={this.state.password}/>
 							</div>
 							<div className="modal-footer">
 								<button className="btn btn-danger" onClick={this.stopAllTasks} 

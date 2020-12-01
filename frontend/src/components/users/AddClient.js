@@ -1,8 +1,6 @@
-import React,{Component} from 'react';
+import React,{ useState } from 'react';
 import Select from 'react-select'
-
 import ClientService from '../../services/ClientService';
-
 
 const optionsModelPrimary = [
 	{ value: 'peoplenet', label: 'Detector personas' },
@@ -14,141 +12,107 @@ const optionsModelSeconday = [
 	{ value: 'tipo_auto', label: 'Clasificador de marca de vehiculos' }
 ];
 
-const optionsMetadata = [
-	{ value: true, label: 'Si' },
-	{ value: false, label: 'No' },
+const optionsCamera = [
+	{ value: 'rtsp://pruebas_secplan:Mlc_1402@190.98.204.38/live/41DDFC2A-B0C0-4CC8-882B-61C57D85BC01', label: 'Tobalaba al sur' },
+	{ value: 'rtsp://40.68.31.254:8554/aldaba', label: 'Sector calle Aldaba' },
+	{ value: 'rtsp://Prueba:Prueba12@mardom-op.cams.mardom.com:50888/profile?token=media_profile1&SessionTimeout=60', label: 'Seccion bodega materiales Mardom' },
+	{ value: 'rtsp://prueba:12345678@mardom-op.cams.mardom.com:50887/profile?token=media_profile1&TO=60&AB=1', label: 'Recepcion Mardom' },
+	{ value: 'rtsp://pruebas_secplan:Mlc_1402@190.98.204.38/live/E7294165-0FC3-46B5-B8F2-247EF55C2DAF', label: 'Sector calle las Condes' },
 ];
 
 
-//const jiro = [];
+function AddClient(){
 
-class AddClient extends Component{
+    const [state, setState] = useState({
+        id: null,
+        modelo_primario: '',
+        modelo_secundario: [''],
+        estado: false,
+        url: [],
+        submitted: false,
+		salida: '',
+    })
 
-	constructor(props){
-		super(props);
-		this.onChangeModel_primary = this.onChangeModel_primary.bind(this);
-		this.onChangemodel_secundary = this.onChangemodel_secundary.bind(this);
-		this.onChangeSave_meta = this.onChangeSave_meta.bind(this);
-		this.saveClient = this.saveClient.bind(this);
+    const handleChange = (name, value) => {
+        setState({...state, [name]: value.value})
+    }
 
-		this.state = {
-			id: null,
-			modelo_primario: "",
-			modelo_secundario: [],
-			guardar_metadata: "",
-			estado: "No procesando",
-			url: [],
-			submitted: false,
-			salida:""
-		};
-
-	}
-
-	onChangeModel_primary(e){
-		this.setState({
-			modelo_primario: e.value
-		});
-	}
-
-	onChangemodel_secundary = (e) => {
-		var tula = [];
-		if (e)
-			e.forEach(element => 
-					tula.push(element.value));
-		this.setState({
-			modelo_secundario : tula
+    const handleChangeList = (name, value) => {
+        var temp = [];
+		if (value)
+			value.forEach(element => 
+					temp.push(element.value));
+		setState({
+			...state, [name] : temp
 		});	
-	}
+    }
 
-	onChangeSave_meta(e){
-		this.setState({
-			guardar_metadata: e.value
-		});
-	}
-
-	saveClient(){
-		console.log(this.state);
+	const enviarTarea = () => {
 		var data = {
-			modelo_primario: this.state.modelo_primario,
-			estado : this.state.estado,
-			modelo_secundario: this.state.modelo_secundario,
-			guardar_metadata: this.state.guardar_metadata,
-			url: this.state.url,
-			salida: this.state.salida
+			modelo_primario: state.modelo_primario,
+			estado : state.estado,
+			modelo_secundario: state.modelo_secundario,
+			url: state.url,
+			salida: state.salida
 		};
 
 		ClientService.addNewClient(data)
 			.then(response => {
-			this.setState({
-				id: response.data.id,
-				modelo_primario: response.data.modelo_primario,
-				modelo_secundario: response.data.modelo_secundario,
-				guardar_metadata: response.data.guardar_metadata,
-				url: response.data.url,
-				submitted: true,
-				salida: ""
-
-			});
-		})
+				setState({
+					id: response.data.id,
+					modelo_primario: response.data.modelo_primario,
+					modelo_secundario: response.data.modelo_secundario,
+					url: response.data.url,
+					submitted: true,
+					salida: ""
+				});
+			})
 		.catch(e => {
-        console.log(e);
-      });
-	}
-
-	addUrl(){
-		this.setState({url: [...this.state.url, ""]});
-	}
-
-	handleChange(e, index){
-		this.state.url[index] = e.target.value; 
-		this.setState({url: this.state.url})
-	}
-
-	handleRemove(index){ 
-		this.state.url.splice(index,1); 
-		console.log(this.state.url,"$$$$"); 
-		this.setState({url: this.state.url})
+        	console.log(e);
+      	});
 	}
 	
-	render() {
-    	return (
-    		<div className="container">
-    		<div className="w-75 mx-auto shadow p-5">
-    		<h2 className="text-center mb-4">Agregar tarea de cliente</h2>
-      		<div className="submit-form">
-        		{this.state.submitted ? (
-          			<div>
-            			<h4>La tarea fue registrada</h4>
-          			</div>
-        		) : (
-          			<div>
-						<div className="form-group">  <Select options={optionsModelPrimary} onChange={this.onChangeModel_primary} placeholder="Elija modelo primario" name="primary" /></div>
-						<div className="form-group">  <Select options={optionsModelSeconday} isMulti onChange={this.onChangemodel_secundary} placeholder="Elija modelo secundario" name="secundary"/></div>
-						<div className="form-group">  <Select options={optionsMetadata} onChange={this.onChangeSave_meta} placeholder="¿Desea guardar metadata en la BD?"name="metada"/></div>
-						<div className="form-group">
-							{
-								this.state.url.map((url,index)=>{
+	const agregarAnalitica = (e) => {
+		setState({})
+
+    }
+
+    return(
+        <div className="container">
+            <div className="w-75 mx-auto shadow p-5">
+                <h2 className="text-center mb-4">Agregar tarea de cliente</h2>
+                <div className="submit-form">
+                    {state.submitted ? (
+                        <div>
+                            <h4>La tarea fue registrada</h4>
+                        </div>
+                    ) : (
+                        <div>
+                            <div className="form-group">  
+                                <Select options={optionsModelPrimary} onChange={(value) => handleChange('modelo_primario', value)} placeholder="Elija modelo primario" name="primary" />
+                            </div>
+                            <div className="form-group">  
+                                <Select options={optionsModelSeconday} isMulti onChange={(value) => handleChangeList('modelo_secundario', value)} placeholder="Elija modelo secundario" name="secundary"/>
+                            </div>
+                            <div className="form-group">  
+                                <Select options={optionsCamera} isMulti onChange={(value) => handleChangeList('url', value)} placeholder="Seleccione las camaras" name="camaras"/>
+                            </div>
+							<div>
+								{state.url.map((el, index) => {
 									return(
-										<form class="form-inline">
-
-										<div key={index} class="text-center mb-4">
-											<input placeholder={"RTSP "+index} className="form-control" onChange={(e)=>this.handleChange(e,index)} value={url}/>
+										<div key={index}>
+											<label> {el} </label>
+											<button type="submit" className="btn btn-primary mb-1 mt-1 ml-1 mr-1" onClick={(e)=>agregarAnalitica(el)}>+</button>	
 										</div>
-										<button onClick={(e)=>this.handleRemove(e)} className="btn btn-danger mb-4">Remove</button>
-										</form>
 									)
-								})
-							}
-							<button onClick={(e)=>this.addUrl(e)}  className="btn btn-info">Agregar RTSP</button>
-						</div>
-
-            			<button onClick={this.saveClient} className="btn btn-primary btn-block">Guardar</button>
-          			</div>
-        		)}
-      		</div>
-      		</div>
-      		</div>
-   		);
-  	}
+								})}
+							</div>
+                            <button onClick={enviarTarea} className="btn btn-primary btn-block">Guardar</button>
+                        </div>
+                    )}
+                </div>
+            </div>
+        </div>
+    )
 }
 export default AddClient;
