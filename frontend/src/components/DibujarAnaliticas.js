@@ -26,7 +26,7 @@ function DibujarAnaliticas(props){
         //const image = imageRef.current;
         const image = new Image();
         const canvas = canvasRef.current;
-        image.src='https://www.seguridaddeproductos.cl/wp-content/uploads/2015/04/Al-cruzar-la-calle.png'
+        image.src= props.fotoUrl;
         image.onload = () => {
             canvas.width = image.width;
             canvas.height = image.height;
@@ -139,6 +139,14 @@ function DibujarAnaliticas(props){
             SetListCoord([])
         }
     }
+    const {Callback} = props;
+
+    useEffect(()=>{
+        function mandarInfo(){
+            Callback(Analiticas)
+        };
+        mandarInfo();
+    },[Analiticas]);
 
     return(
         <div className="container">
@@ -150,6 +158,7 @@ function DibujarAnaliticas(props){
                 </RadioGroup>
             </FormControl>
             <div><input placeholder="Nombre analitica"   type='text' onChange={(e) => setnombreAnalitica(e.target.value)}/></div>
+            <label></label>
             <div>
                 <canvas ref={canvasRef} onMouseMove={onMouseMove} onClick={onMouseClick}/>
                 <ul>
@@ -169,11 +178,8 @@ function DibujarAnaliticas(props){
             <div>
                 <Button variant="contained" color="primary" onClick={() => SetListCoord([])}> Borrar analitica actual </Button>
                 <Button variant="contained" color="primary" onClick={() => setAnaliticas([])}> Borrar todas las analiticas guardadas</Button> 
-            </div>
-            <div>
                 <Button variant="contained" color="primary" onClick={onGuardar}> Guardar Analitica </Button> 
-                <Button variant="contained" color="primary" > Enviar analiticas </Button> 
-            </div>        
+            </div>     
         </div>
     )
 }
