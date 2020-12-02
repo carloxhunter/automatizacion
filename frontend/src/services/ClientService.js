@@ -31,7 +31,7 @@ class ClientService{
 	  }
 
 	upDeepstream(data){
-		return http.post("/exec/bash", data);
+		return http.post("/exec/bash2", data);
 	}
 
 	finishalldocker(data){
