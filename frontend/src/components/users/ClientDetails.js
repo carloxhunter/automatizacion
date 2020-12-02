@@ -1,8 +1,11 @@
 import React,{Component} from 'react';
 
 import ClientService from '../../services/ClientService';
+import {ReactFlvPlayer} from 'react-flv-player'
 
 import { Link } from 'react-router-dom';
+import StateManager from 'react-select';
+var urljon=""
 
 class ClientDetails extends Component{
 
@@ -13,6 +16,7 @@ class ClientDetails extends Component{
 		this.sendTask = this.sendTask.bind(this);
 		this.updateClient = this.updateClient.bind(this);
 		this.stopDocker = this.stopDocker.bind(this);
+		this.gethttp=this.gethttp.bind(this);
 
 
 		this.state = {
@@ -22,7 +26,8 @@ class ClientDetails extends Component{
 				modelo_secundario: "",
 				estado : false,
 				url:"",
-				salida:""
+				salida:"",
+				http:""
 				
 			}
 		}
@@ -30,7 +35,12 @@ class ClientDetails extends Component{
 
 	componentDidMount() {
     	this.loadClient(this.props.match.params.id);
-  	}
+	  }
+	  
+	  gethttp(){
+		  return this.state.http
+	  }
+
 
 	loadClient(id){
 		ClientService.getClientById(id)
@@ -70,13 +80,14 @@ class ClientDetails extends Component{
 
 	sendTask = () => {
 		const data = {
-			"token": this.state.currentTask.id
+			"token": this.state.currentTask.id,
+			"name":"testName"
 		  }
 		ClientService.upDeepstream(data).then(response => {
-			console.log("Respuesta de server " + response.data.rtsp)
+			console.log("Respuesta de server " + response.data.rtsp+" "+response.data.http)
 			this.state.currentTask.salida=response.data.rtsp
-			console.log(this.state.currentTask.salida)
-
+			this.state.currentTask.http=response.data.http
+			console.log(this.state.currentTask.salida, this.state.currentTask.http)
 			ClientService.updateClient(this.state.currentTask.id,this.state.currentTask)
 			.then(response =>{
 				console.log(response.data);})
@@ -117,7 +128,8 @@ class ClientDetails extends Component{
 				currentTask: {
 				...prevState.currentTask,
 				estado: false,
-				salida: ""
+				salida: "",
+				http:""
 				}
 			};
 			}, () =>{
@@ -128,6 +140,7 @@ class ClientDetails extends Component{
 
 	render(){
 		const { currentTask } = this.state;
+		var urljiro = currentTask.http 
 		return(
 			<div className="container">
 				<div className="py-4">
@@ -155,12 +168,52 @@ class ClientDetails extends Component{
 							<li className="list-group-item">modelo_secundario: {JSON.stringify(currentTask.modelo_secundario)}</li>
 							<li className="list-group-item">RTSP: {JSON.stringify(currentTask.url)}</li>
 							<li className="list-group-item">RTSP SALIDA: {currentTask.salida}</li>
+							<li className="list-group-item">HTTP SALIDA: {currentTask.http}</li>
 						</ul>
 					</div>
 				</div>
-				
+				{currentTask.estado === false ? (
+						<div id='jiro'> test </div> ):
+
+
+				<div id='div3'>
+					
+					{urljiro}
+					<ReactFlvPlayer
+						  //url = "http://3.131.221.80:8595/dps/clienteX.flv"
+						url={urljiro}
+          				heigh = "800px"
+						  width = "800px"
+						  type='flv'
+						  isMuted={true}
+						  isLive={true}
+						  hasAudio={false}
+						  stashInitialSize={500}
+						  isMuted
+						  enableWarning={false}
+						  enableError={false}
+						  handleError={(err) => {
+						  switch (err) {
+							case 'NetworkError':
+							  // todo
+							  console.log('network error');
+							break;
+							case 'MediaError':
+							  console.log('network error');
+							break;
+							default:
+							  console.log('other error');
+						  }
+						}}
+
+
+					/>
+     
+
+				</div> }
 			</div>
 		)
 	}
 }
 export default ClientDetails;
+//url2=http://3.131.221.80:8595/dps/clienteX.flv
