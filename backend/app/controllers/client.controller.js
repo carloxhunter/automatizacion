@@ -16,7 +16,8 @@ exports.create = (req, res) => {
     guardar_metadata: req.body.guardar_metadata,
     estado: false,
     url: req.body.url,
-    salida: req.body.salida
+    salida: req.body.salida,
+    http:req.body.http
     /*video : [req.body.video.tipo, req.body.video.url]*/
   });
 
@@ -84,7 +85,7 @@ exports.UpdateShutDown = async  (req, res) => {
 
 exports.UpdateShutDown = async  (req, res) => {
   //console.log('jiro1')
-  Client.updateMany({"estado":true}, {"$set":{"estado":false, "salida":""}})
+  Client.updateMany({"estado":true}, {"$set":{"estado":false, "salida":"", "http":""}})
   .then(data => {
     if (!data) {
       res.status(404).send({

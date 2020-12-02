@@ -8,6 +8,7 @@ module.exports = app => {
    
 
     router.get("/avalport", ports.avalports);
+    router.get("/jiports", ports.jiports);
   
     
     app.use("/api/ports", router);

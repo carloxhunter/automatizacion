@@ -25,17 +25,38 @@ var portscanner = require('portscanner')
 
 }
 
-async function returnportaval(init, end){
-    
-    portscanner.findAPortNotInUse(init, end, function (error, port) {
-        console.log('PORT free: ' + port)
-        
+
+
+exports.jiports = async (req, res) => {
+ var ports = [];
+  portscanner.findAPortNotInUse(3000, 4000).then((port) =>{
+    console.log('PORT IN USE AT: ' + port)
+    ports.push(port)
+    return ports
+  }).then(port2 => {console.log(port2)}).
+  then(() => portscanner.findAPortNotInUse(4000, 5000)).
+  then(jiros => {
+    ports.push(jiros)
+  }).then(() => {
+    //console.log(ports)
+    jiro=JSON.stringify(ports)
+    console.log(jiro)
+    res.send(jiro)
+  
+  }).
+  catch(err => {
+    console.log(err)
+    res.status(500).send({ message:err});
     }
-    )   
-    
+   )
+
 
 
 }
+
+
+
+
     
     
 
